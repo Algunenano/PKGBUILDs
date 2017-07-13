@@ -1,0 +1,32 @@
+_pkgnamebase=sqlalchemy-clickhouse
+_pkgname=python2-$_pkgnamebase
+pkgname=${_pkgname}-git
+pkgver=r9.1a094cc
+pkgrel=1
+pkgdesc="Python module with the ClickHouse dialect for SQLAlchemy."
+arch=(i686 x86_64)
+url="https://github.com/CartoDB/sqlalchemy-clickhouse"
+license=(Apache)
+depends=(python2 python2-sqlalchemy python2-infi.clickhouse_orm)
+makedepends=(git python2-distribute)
+conflicts=("$_pkgname")
+provides=("${_pkgname}=${pkgver}")
+source=("git+https://github.com/CartoDB/sqlalchemy-clickhouse.git#branch=nullable")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$_pkgnamebase"
+  ( set -o pipefail
+    git describe --long 2>/dev/null | sed 's/\([^-]*-g\)/r\1/;s/-/./g' ||
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  )
+}
+build() {
+  cd "$_pkgnamebase"
+  python2 setup.py build
+}
+
+package() {
+  cd "$_pkgnamebase"
+  python2 setup.py install --root="${pkgdir}" || return 1
+}

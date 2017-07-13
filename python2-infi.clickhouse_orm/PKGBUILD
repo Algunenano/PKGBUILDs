@@ -1,0 +1,24 @@
+_pkgname=infi.clickhouse_orm
+pkgname=python2-${_pkgname}
+pkgver=0.9.4
+pkgrel=1
+pkgdesc="Simple ORM for working with the ClickHouse database."
+arch=(i686 x86_64)
+url="https://github.com/Infinidat/infi.clickhouse_orm"
+license=(custom)
+depends=(python2 python2-requests python2-pytz python2-six python2-setuptools)
+source=("https://pypi.python.org/packages/1c/ff/b08c455a6d35ce5368fa1b6a1de3201cd50228c5717ddc07792239141932/${_pkgname}-${pkgver}.tar.gz"
+        "LICENSE")
+sha256sums=('31259b54eab47e7f28fc7dc17dad607c1521c9a8c17d8a5fe668eb960e15f870'
+            'fbd532f91d91edb6634a9f26df54948ce5fcffa3a0d656aa61407c9e97735072')
+
+build() {
+  cd "${_pkgname}-${pkgver}"
+  python2 setup.py build
+}
+
+package() {
+  cd "${_pkgname}-${pkgver}"
+  python2 setup.py install --root="${pkgdir}" || return 1
+  install -D -m644 "$srcdir/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

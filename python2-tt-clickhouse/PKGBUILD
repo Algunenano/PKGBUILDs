@@ -1,0 +1,32 @@
+_pkgnamebase=tt-clickhouse
+_pkgname=python2-$_pkgnamebase
+pkgname=${_pkgname}-git
+pkgver=r77.47413e8
+pkgrel=1
+pkgdesc="SAME"
+arch=(i686 x86_64)
+url="SAME"
+license=(custom)
+depends=(python2 python2-urllib3 python2-sqlalchemy python2-quadkey python2-psycopg2 python2-sqlalchemy-clickhouse)
+makedepends=(git python2-distribute)
+conflicts=("$_pkgname")
+provides=("${_pkgname}=${pkgver}")
+source=("set url to private repo (git+ssh) here")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$_pkgnamebase"
+  ( set -o pipefail
+    git describe --long 2>/dev/null | sed 's/\([^-]*-g\)/r\1/;s/-/./g' ||
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  )
+}
+build() {
+  cd "$_pkgnamebase/py/tt"
+  python2 setup.py build
+}
+
+package() {
+  cd "$_pkgnamebase/py/tt"
+  python2 setup.py install --root="${pkgdir}" || return 1
+}

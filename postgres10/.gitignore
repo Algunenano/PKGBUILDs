@@ -1,0 +1,13 @@
+# Ignore everything
+*
+
+# Whitelist
+!.gitignore
+!PKGBUILD
+
+!postgresql-run-socket.patch
+!postgresql.install
+!postgresql.logrotate
+!postgresql.pam
+!postgresql.service
+!postgresql.tmpfiles.conf

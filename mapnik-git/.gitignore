@@ -1,0 +1,9 @@
+# Ignore everything
+*
+
+# Whitelist
+!.gitignore
+!PKGBUILD
+
+!icu59.patch
+!mapnik.install
