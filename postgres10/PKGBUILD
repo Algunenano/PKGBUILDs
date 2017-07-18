@@ -1,5 +1,5 @@
 pkgname=postgresql-10
-pkgver=10beta1
+pkgver=10beta2
 pkgrel=1
 pkgdesc="Git version of the PostgreSQL database (includes both server and libs)"
 arch=('i686' 'x86_64')
@@ -10,7 +10,7 @@ depends=('libxml2' 'readline>=6.0' 'openssl>=1.0.0')
 makedepends=('python2' 'perl' 'tcl>=8.6.0')
 optdepends=('python2: for PL/Python support'
             'perl: for PL/Perl support'
-	    'tcl: for PL/Tcl support')
+            'tcl: for PL/Tcl support')
 conflicts=('postgresql' 'postgresql-libs' 'postgresql-testing' 'postgresql-client')
 provides=("postgresql=$pkgver" "postgresql-libs=$pkgver" "postgresql-client=$pkgver")
 source=("https://ftp.postgresql.org/pub/source/v${pkgver}/postgresql-${pkgver}.tar.bz2"
@@ -18,6 +18,14 @@ source=("https://ftp.postgresql.org/pub/source/v${pkgver}/postgresql-${pkgver}.t
         postgresql.pam postgresql.logrotate
         postgresql.service postgresql.tmpfiles.conf postgresql-check-db-dir)
 install=postgresql.install
+
+sha256sums=('0d6b50236039fc92e8784bd908b452c38ef63c0f9029f34e7115fbc30e17b195'
+            '8538619cb8bea51078b605ad64fe22abd6050373c7ae3ad6595178da52f6a7d9'
+            '57dfd072fd7ef0018c6b0a798367aac1abb5979060ff3f9df22d1048bb71c0d5'
+            '6abb842764bbed74ea4a269d24f1e73d1c0b1d8ecd6e2e6fb5fb10590298605e'
+            '2635569ea90b2ece012dbab1e7cfc859b254a6c748a76a0228cb86c38a5371dd'
+            '7e086d70e0dcaa6ce45693b4e826ce92d770192b3aff5642319b1ef279d88dc4'
+            '5e551630ee443a6985551da2ab72789f669deba8bf4443465d5c76a064dc675d')
 
 build() {
   cd "${srcdir}/postgresql-${pkgver}"
@@ -67,11 +75,3 @@ package() {
   install -D -m644 "${srcdir}/postgresql.logrotate" \
     "${pkgdir}/etc/logrotate.d/postgresql"
 }
-
-md5sums=('589a042a374aafa91e1db4c3d0dd1a8e'
-         '75c579eed03ffb2312631f0b649175b4'
-         '96f82c38f3f540b53f3e5144900acf17'
-         'd28e443f9f65a5712c52018b84e27137'
-         '2fad28b96d590a0582ec99252c9a5561'
-         '1c5a1f99e8e93776c593c468e2612985'
-         'f763a2cf07c08df2ee074a9f7e286da5')

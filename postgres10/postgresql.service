@@ -10,6 +10,7 @@ Group=postgres
 RuntimeDirectory=postgresql
 
 Environment=PGROOT=/var/lib/postgres
+Environment=TT_HOST=10.0.161.150
 
 SyslogIdentifier=postgres
 PIDFile=/var/lib/postgres/data/postmaster.pid
