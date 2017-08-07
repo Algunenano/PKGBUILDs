@@ -1,0 +1,35 @@
+_pkgname=geos
+pkgname=$_pkgname-git
+pkgver=r3812.81c6d4ad
+pkgrel=1
+pkgdesc="C++ port of the Java Topology Suite"
+arch=('i686' 'x86_64')
+url="http://trac.osgeo.org/geos/"
+license=('GPL')
+depends=('gcc-libs' 'bash')
+makedepends=('git')
+options=('!emptydirs')
+provides=("${_pkgname}=${pkgver}")
+conflicts=("$_pkgname")
+source=("$_pkgname::git+https://git.osgeo.org/gogs/geos/geos.git")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$_pkgname"
+  ( set -o pipefail
+    git describe --long 2>/dev/null | sed 's/\([^-]*-g\)/r\1/;s/-/./g' ||
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  )
+}
+
+build() {
+  cd "${_pkgname}"
+  ./autogen.sh
+  ./configure --prefix=/usr
+  make
+}
+
+package() {
+  cd "${_pkgname}"
+  make DESTDIR="${pkgdir}" install
+}
