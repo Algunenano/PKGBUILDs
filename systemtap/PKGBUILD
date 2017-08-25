@@ -8,8 +8,8 @@ pkgdesc="provides infrastructure to simplify the gathering of information about 
 url="http://sourceware.org/systemtap/"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('elfutils' 'nss' 'python2')
-makedepends=('python2-setuptools' 'xmlto' 'git')
+depends=('elfutils' 'nss' 'python' 'python2')
+makedepends=('python-setuptools' 'python2-setuptools' 'xmlto' 'git')
 optdepends=('sqlite3: for storing results in a database')
 source=("git://sourceware.org/git/systemtap.git#tag=release-$pkgver")
 install='systemtap.install'
