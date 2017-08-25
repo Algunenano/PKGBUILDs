@@ -11,3 +11,4 @@
 !postgresql.pam
 !postgresql.service
 !postgresql.tmpfiles.conf
+!postgresql-check-db-dir
