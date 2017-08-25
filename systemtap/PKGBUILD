@@ -1,9 +1,10 @@
 # $Id$
 # Maintainer : Christian Rebischke <Chris.Rebischke@archlinux.org>
-# Contributor:dront78 <dront78@gmail.com>
+# Contributor: dront78 <dront78@gmail.com>
+# Contributor: Algunenano <raul at rmr.ninja>
 pkgname=systemtap
 pkgver=3.1
-pkgrel=4
+pkgrel=5
 pkgdesc="provides infrastructure to simplify the gathering of information about the running system."
 url="http://sourceware.org/systemtap/"
 arch=('i686' 'x86_64')
@@ -14,6 +15,11 @@ optdepends=('sqlite3: for storing results in a database')
 source=("git://sourceware.org/git/systemtap.git#tag=release-$pkgver")
 install='systemtap.install'
 sha512sums=('SKIP')
+
+prepare() {
+  cd "$pkgname"
+  git cherry-pick a477a43122 62640f2ed0 9f1c7a872e c7029a89f5
+}
 
 build() {
   cd "$pkgname"
