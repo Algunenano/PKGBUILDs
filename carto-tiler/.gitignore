@@ -1,0 +1,9 @@
+# Ignore everything
+*
+
+# Whitelist
+!.gitignore
+!PKGBUILD
+
+!carto-tiler.service
+!configuration.patch

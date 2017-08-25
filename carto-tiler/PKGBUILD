@@ -1,0 +1,42 @@
+# Maintainer: Javier Torres <jtorres@carto.com>
+pkgname=carto-tiler
+pkgver=3.11.0.r2.fdc6fa53
+pkgrel=1
+pkgdesc="CARTO Maps API tiler. It extends Windshaft with some extra functionality"
+arch=('x86_64')
+url="https://github.com/CartoDB/Windshaft-cartodb"
+license=('BSD')
+depends=('mapnik' 'nodejs' 'pango' 'redis')
+makedepends=('git' 'npm' 'python2' 'boost' 'clang')
+backup=('etc/carto/tiler.conf')
+source=('git+https://github.com/Algunenano/Windshaft-cartodb.git#branch=performance_stats'
+        'configuration.patch'
+        'carto-tiler.service')
+sha256sums=('SKIP'
+            'db57b281b428a65645f658239234308d141a73a74f70af83a4e30b4766c480de'
+            'e0a7912e260c6dfc1e0fe42fde7f01d1f2dbbab17587d1cfb43b75277745dfa7')
+
+pkgver() {
+  cd "$srcdir/Windshaft-cartodb"
+  printf "%s" "$(git describe --long | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
+}
+
+prepare() {
+  cd "$srcdir/Windshaft-cartodb"
+  patch -p1 < "$srcdir/configuration.patch"
+}
+
+build() {
+  cd "$srcdir/Windshaft-cartodb"
+  npm install --python=python2 --verbose --build-from-source=mapnik
+}
+
+package() {
+  cd "$srcdir/Windshaft-cartodb"
+  mkdir -p "$pkgdir/opt/carto/tiler"
+  cp -ar app.js assets lib node_modules package.json "$pkgdir/opt/carto/tiler"
+
+  install -Dm0644 "$srcdir/carto-tiler.service" "$pkgdir/usr/lib/systemd/system/carto-tiler.service"
+  install -Dm0644 config/environments/development.js.example "$pkgdir/etc/carto/tiler.conf"
+  install -Dm0644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
