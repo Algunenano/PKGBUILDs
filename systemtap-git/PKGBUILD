@@ -1,0 +1,49 @@
+# $Id$
+# Maintainer : Christian Rebischke <Chris.Rebischke@archlinux.org>
+# Contributor:dront78 <dront78@gmail.com>
+pkgname=systemtap-git
+_pkgname=systemtap
+pkgver=3.1.r241.g05785fe02
+pkgrel=1
+pkgdesc="provides infrastructure to simplify the gathering of information about the running system."
+url="http://sourceware.org/systemtap/"
+arch=('i686' 'x86_64')
+license=('GPL')
+depends=('elfutils' 'nss' 'python2')
+makedepends=('python2-setuptools' 'xmlto' 'git')
+optdepends=('sqlite3: for storing results in a database')
+conflicts=("$_pkgname")
+provides=("${_pkgname}=${pkgver}")
+source=("git://sourceware.org/git/systemtap.git")
+sha512sums=('SKIP')
+
+pkgver() {
+  cd "$_pkgname"
+  ( set -o pipefail
+    git describe --long 2>/dev/null | cut -f 1 -d '-' --complement | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+  )
+}
+
+
+build() {
+  cd "$_pkgname"
+  ./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --libexecdir=/usr/lib/"${pkgname}" \
+    --libdir=/usr/lib/"${pkgname}" \
+    --mandir=/usr/share/man/ \
+    --localstatedir=/var \
+    --enable-pie \
+    --disable-docs \
+    --enable-htmldocs
+  make
+}
+
+package() {
+  cd "$_pkgname"
+  make DESTDIR="${pkgdir}" install
+  rmdir "${pkgdir}/var/run/stap-server/"
+  rmdir "${pkgdir}/var/run/"
+}
+
