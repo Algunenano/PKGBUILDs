@@ -5,7 +5,7 @@
 
 pkgname=mapnik-git
 _pkgname=mapnik
-pkgver=3.0.15.1.g4c8f4faae
+pkgver=3.0.15.5.g980028d81
 pkgrel=1
 pkgdesc="A powerful map rendering toolkit used by OpenStreetmap and others"
 arch=('i686' 'x86_64')
@@ -37,7 +37,6 @@ pkgver() {
 build() {
   cd "$srcdir/$_pkgname"
   git submodule update --init
-  PYTHON=python2
   scons configure \
     PREFIX="/usr" \
     DESTDIR="$pkgdir" \
@@ -45,11 +44,25 @@ build() {
     XMLPARSER=libxml2 \
     DEBUG=True \
     ENABLE_LOG=True \
-    DEFAULT_LOG_SEVERITY="debug"\
     ENABLE_STATS=True \
-    CXXFLAGS="-g3 -fno-inline -fno-strict-aliasing -DDEBUG -D_GLIBCXX_DEBUG" \
+    ENABLE_METRICS=True \
+    DEFAULT_LOG_SEVERITY="debug"\
+    CPP_TESTS=True \
+    RUNTIME_LINK="shared" \
+    CXXFLAGS="-g0 -fno-inline -fno-strict-aliasing -DDEBUG -D_GLIBCXX_DEBUG" \
     CUSTOM_CXXFLAGS="-DBOOST_OPTIONAL_CONFIG_USE_OLD_IMPLEMENTATION_OF_OPTIONAL" \
     CXX="clang++"
+#   scons configure \
+#     PREFIX="/usr" \
+#     DESTDIR="$pkgdir" \
+#     INPUT_PLUGINS=all \
+#     XMLPARSER=libxml2 \
+#     ENABLE_METRICS=False \
+#     RUNTIME_LINK="shared" \
+#     CXXFLAGS="-fno-inline -fno-strict-aliasing -DDEBUG -D_GLIBCXX_DEBUG" \
+#     CUSTOM_CXXFLAGS="-DBOOST_OPTIONAL_CONFIG_USE_OLD_IMPLEMENTATION_OF_OPTIONAL" \
+#     CXX="clang++"
+
   scons -j3 # $MAKEFLAGS
 }
 
