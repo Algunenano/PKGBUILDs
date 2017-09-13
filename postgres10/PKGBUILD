@@ -1,5 +1,5 @@
-pkgname=postgresql-10
-pkgver=10beta2
+pkgname=postgresql
+pkgver=10beta4
 pkgrel=1
 pkgdesc="Git version of the PostgreSQL database (includes both server and libs)"
 arch=('i686' 'x86_64')
@@ -19,7 +19,7 @@ source=("https://ftp.postgresql.org/pub/source/v${pkgver}/postgresql-${pkgver}.t
         postgresql.service postgresql.tmpfiles.conf postgresql-check-db-dir)
 install=postgresql.install
 
-sha256sums=('0d6b50236039fc92e8784bd908b452c38ef63c0f9029f34e7115fbc30e17b195'
+sha256sums=('e70ffa84d439033533279ccb3ae7beaa0278585b2b176a767bcd0cbddb1252d2'
             '8538619cb8bea51078b605ad64fe22abd6050373c7ae3ad6595178da52f6a7d9'
             '57dfd072fd7ef0018c6b0a798367aac1abb5979060ff3f9df22d1048bb71c0d5'
             '6abb842764bbed74ea4a269d24f1e73d1c0b1d8ecd6e2e6fb5fb10590298605e'
