@@ -1,16 +1,15 @@
 _pkgname=postgis
 pkgname=$_pkgname-git
-pkgver=r11417.69d09cff3
+pkgver=r11532.ef243988b
 pkgrel=1
 pkgdesc="Adds support for geographic objects to PostgreSQL"
 arch=('i686' 'x86_64')
 url="http://postgis.net/"
 license=('GPL')
-depends=('postgresql' 'gdal' 'json-c' 'proj')
+depends=('postgresql' 'gdal' 'json-c' 'proj' 'protobuf-c')
 makedepends=('git')
 provides=("${_pkgname}=${pkgver}")
 conflicts=("$_pkgname")
-options=('!makeflags')
 source=("$_pkgname::git+https://github.com/postgis/postgis.git")
 sha256sums=('SKIP')
 
