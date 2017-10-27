@@ -4,3 +4,6 @@
 # Whitelist
 !.gitignore
 !PKGBUILD
+!gdal-2.2-poppler-0.58.patch
+!gdal-perl-vendor.patch
+!gdal.changelog

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<title>gdal.changelog\trunk - svntogit/community.git - Git clone of the 'community' repository
+</title>
+<meta name='generator' content='cgit v0.12'/>
+<meta name='robots' content='index, nofollow'/>
+<link rel='stylesheet' type='text/css' href='/cgit.css'/>
+<link rel='shortcut icon' href='/favicon.ico'/>
+<link rel='alternate' title='Atom feed' href='https://git.archlinux.org/svntogit/community.git/atom/trunk/gdal.changelog?h=packages/gdal' type='application/atom+xml'/>
+<link rel='vcs-git' href='https://git.archlinux.org/svntogit/community.git' title='svntogit/community.git Git repository'/>
+<link rel='vcs-git' href='git://git.archlinux.org/svntogit/community.git' title='svntogit/community.git Git repository'/>
+<link rel='vcs-git' href='ssh://git.archlinux.org/srv/git/svntogit/community.git' title='svntogit/community.git Git repository'/>
+</head>
+<body>
+	<div id="archnavbar"><!-- Arch Linux global navigation bar -->
+		<div id="archnavbarlogo">
+			<p><a href="http://www.archlinux.org/" title="Arch news, packages, projects and more"></a></p>
+		</div>
+		<div id="archnavbarmenu">
+			<ul id="archnavbarlist">
+				<li id="anb-home"><a href="http://www.archlinux.org/" title="Arch news, packages, projects and more">Home</a></li>
+				<li id="anb-packages"><a href="http://www.archlinux.org/packages/" title="Arch Package Database">Packages</a></li>
+				<li id="anb-forums"><a href="https://bbs.archlinux.org/" title="Community forums">Forums</a></li>
+				<li id="anb-wiki"><a href="https://wiki.archlinux.org/" title="Community documentation">Wiki</a></li>
+				<li id="anb-bugs"><a href="https://bugs.archlinux.org/" title="Report and follow bugs">Bugs</a></li>
+				<li id="anb-sec"><a href="https://security.archlinux.org/" title="Security Tracker">Security</a></li>
+				<li id="anb-aur"><a href="https://aur.archlinux.org/" title="Arch Linux User Repository">AUR</a></li>
+				<li id="anb-download"><a href="http://www.archlinux.org/download/" title="Get Arch Linux">Download</a></li>
+			</ul>
+		</div>
+	</div><!-- #archnavbar -->
+<div id='cgit'><table id='header'>
+<tr>
+<td class='main'><a href='/'>index</a> : <a title='svntogit/community.git' href='/svntogit/community.git/'>svntogit/community.git</a></td></tr>
+<tr><td class='sub'>Git clone of the 'community' repository
+</td><td class='sub right'></td></tr></table>
+<table class='tabs'><tr><td>
+<a href='/svntogit/community.git/?h=packages/gdal'>summary</a><a href='/svntogit/community.git/refs/?h=packages/gdal'>refs</a><a href='/svntogit/community.git/log/trunk/gdal.changelog?h=packages/gdal'>log</a><a class='active' href='/svntogit/community.git/tree/trunk/gdal.changelog?h=packages/gdal'>tree</a><a href='/svntogit/community.git/commit/trunk/gdal.changelog?h=packages/gdal'>commit</a><a href='/svntogit/community.git/diff/trunk/gdal.changelog?h=packages/gdal'>diff</a><a href='/svntogit/community.git/stats/trunk/gdal.changelog?h=packages/gdal'>stats</a></td><td class='form'><form class='right' method='get' action='/svntogit/community.git/log/trunk/gdal.changelog'>
+<input type='hidden' name='h' value='packages/gdal'/><select name='qt'>
+<option value='grep'>log msg</option>
+<option value='author'>author</option>
+<option value='committer'>committer</option>
+<option value='range'>range</option>
+</select>
+<input class='txt' type='text' size='10' name='q' value=''/>
+<input type='submit' value='search'/>
+</form>
+</td></tr></table>
+<div class='path'>path: <a href='/svntogit/community.git/tree/?h=packages/gdal'>root</a>/<a href='/svntogit/community.git/tree/trunk?h=packages/gdal'>trunk</a>/<a href='/svntogit/community.git/tree/trunk/gdal.changelog?h=packages/gdal'>gdal.changelog</a></div><div class='content'>blob: e1f648c9f1f4aeb25f58f1d255ed8a7372f9d5ab (<a href='/svntogit/community.git/plain/trunk/gdal.changelog?h=packages/gdal'>plain</a>)
+<table summary='blob content' class='blob'>
+<tr><td class='linenumbers'><pre><a id='n1' href='#n1'>1</a>
+<a id='n2' href='#n2'>2</a>
+<a id='n3' href='#n3'>3</a>
+<a id='n4' href='#n4'>4</a>
+<a id='n5' href='#n5'>5</a>
+<a id='n6' href='#n6'>6</a>
+<a id='n7' href='#n7'>7</a>
+<a id='n8' href='#n8'>8</a>
+<a id='n9' href='#n9'>9</a>
+<a id='n10' href='#n10'>10</a>
+<a id='n11' href='#n11'>11</a>
+<a id='n12' href='#n12'>12</a>
+<a id='n13' href='#n13'>13</a>
+<a id='n14' href='#n14'>14</a>
+<a id='n15' href='#n15'>15</a>
+<a id='n16' href='#n16'>16</a>
+<a id='n17' href='#n17'>17</a>
+<a id='n18' href='#n18'>18</a>
+<a id='n19' href='#n19'>19</a>
+<a id='n20' href='#n20'>20</a>
+<a id='n21' href='#n21'>21</a>
+<a id='n22' href='#n22'>22</a>
+<a id='n23' href='#n23'>23</a>
+<a id='n24' href='#n24'>24</a>
+<a id='n25' href='#n25'>25</a>
+<a id='n26' href='#n26'>26</a>
+<a id='n27' href='#n27'>27</a>
+<a id='n28' href='#n28'>28</a>
+<a id='n29' href='#n29'>29</a>
+<a id='n30' href='#n30'>30</a>
+<a id='n31' href='#n31'>31</a>
+<a id='n32' href='#n32'>32</a>
+<a id='n33' href='#n33'>33</a>
+<a id='n34' href='#n34'>34</a>
+<a id='n35' href='#n35'>35</a>
+<a id='n36' href='#n36'>36</a>
+<a id='n37' href='#n37'>37</a>
+<a id='n38' href='#n38'>38</a>
+<a id='n39' href='#n39'>39</a>
+<a id='n40' href='#n40'>40</a>
+<a id='n41' href='#n41'>41</a>
+<a id='n42' href='#n42'>42</a>
+<a id='n43' href='#n43'>43</a>
+<a id='n44' href='#n44'>44</a>
+<a id='n45' href='#n45'>45</a>
+<a id='n46' href='#n46'>46</a>
+<a id='n47' href='#n47'>47</a>
+<a id='n48' href='#n48'>48</a>
+<a id='n49' href='#n49'>49</a>
+<a id='n50' href='#n50'>50</a>
+<a id='n51' href='#n51'>51</a>
+<a id='n52' href='#n52'>52</a>
+<a id='n53' href='#n53'>53</a>
+<a id='n54' href='#n54'>54</a>
+<a id='n55' href='#n55'>55</a>
+<a id='n56' href='#n56'>56</a>
+<a id='n57' href='#n57'>57</a>
+<a id='n58' href='#n58'>58</a>
+<a id='n59' href='#n59'>59</a>
+<a id='n60' href='#n60'>60</a>
+<a id='n61' href='#n61'>61</a>
+<a id='n62' href='#n62'>62</a>
+<a id='n63' href='#n63'>63</a>
+<a id='n64' href='#n64'>64</a>
+<a id='n65' href='#n65'>65</a>
+<a id='n66' href='#n66'>66</a>
+<a id='n67' href='#n67'>67</a>
+<a id='n68' href='#n68'>68</a>
+<a id='n69' href='#n69'>69</a>
+<a id='n70' href='#n70'>70</a>
+<a id='n71' href='#n71'>71</a>
+<a id='n72' href='#n72'>72</a>
+<a id='n73' href='#n73'>73</a>
+<a id='n74' href='#n74'>74</a>
+<a id='n75' href='#n75'>75</a>
+<a id='n76' href='#n76'>76</a>
+<a id='n77' href='#n77'>77</a>
+<a id='n78' href='#n78'>78</a>
+<a id='n79' href='#n79'>79</a>
+<a id='n80' href='#n80'>80</a>
+<a id='n81' href='#n81'>81</a>
+<a id='n82' href='#n82'>82</a>
+<a id='n83' href='#n83'>83</a>
+<a id='n84' href='#n84'>84</a>
+<a id='n85' href='#n85'>85</a>
+<a id='n86' href='#n86'>86</a>
+<a id='n87' href='#n87'>87</a>
+</pre></td>
+<td class='lines'><pre><code>2017-08-06 Jaroslav Lichtblau &lt;svetlemodry&#64;archlinux.org&gt;
+	* gdal 2.2.1-1
+
+2017-07-10 Jaroslav Lichtblau &lt;svetlemodry&#64;archlinux.org&gt;
+	* gdal 2.2.0-1
+	* hdf5 1.10.1 rebuild
+
+2017-01-22 Jaroslav Lichtblau &lt;svetlemodry&#64;archlinux.org&gt;
+	* gdal 2.1.2-1
+
+2016-08-02 Jaroslav Lichtblau &lt;svetlemodry&#64;archlinux.org&gt;
+	* gdal 2.1.1-1 glew 2.0.0 / poppler 0.46.0 rebuilds rebuild
+
+2016-06-05 Jaroslav Lichtblau &lt;svetlemodry&#64;archlinux.org&gt;
+	* gdal 2.1.0-2 cfitsio 3.390 rebuild
+
+2016-05-22 Jaroslav Lichtblau &lt;svetlemodry&#64;archlinux.org&gt;
+	* gdal 2.1.0-1
+
+2016-04-12 Jaroslav Lichtblau &lt;svetlemodry&#64;archlinux.org&gt;
+	* gdal 2.0.2-5
+	* hdf5 1.10.0 rebuild
+
+2016-02-08 Jaroslav Lichtblau &lt;svetlemodry&#64;archlinux.org&gt;
+	* gdal 2.0.2-1
+
+2016-01-23 Jaroslav Lichtblau &lt;svetlemodry&#64;archlinux.org&gt;
+	* gdal 2.0.0-7
+	* postgresql-libs 9.5 rebuild
+	* openjpeg2 added as dependency
+
+2015-10-06 Jaroslav Lichtblau &lt;svetlemodry&#64;archlinux.org&gt;
+	* gdal 2.0.1-2 FS#46581 fix
+
+2015-06-27 Jaroslav Lichtblau &lt;svetlemodry&#64;archlinux.org&gt;
+	* gdal 2.0.0-1
+
+2015-03-01 Jaroslav Lichtblau &lt;svetlemodry&#64;archlinux.org&gt;
+	* gdal 1.11.2-2 poppler 0.31.0 rebuild
+
+2015-02-23 Jaroslav Lichtblau &lt;svetlemodry&#64;archlinux.org&gt;
+	* gdal 1.11.2-1
+
+2015-01-29 Jaroslav Lichtblau &lt;svetlemodry&#64;archlinux.org&gt;
+	* gdal 1.11.1-6 poppler 0.30.0 rebuild
+
+2014-12-22 Jaroslav Lichtblau &lt;svetlemodry&#64;archlinux.org&gt;
+	* gdal 1.11.1-5 FS#43193 fix
+
+2014-12-20 Evangelos Foutras &lt;evangelos&#64;foutrelis.com&gt;
+	* gdal 1.11.1-4 poppler 0.29.0 rebuild
+
+2014-11-25 Jaroslav Lichtblau &lt;svetlemodry&#64;archlinux.org&gt;
+	* gdal 1.11.1-3 hdf5 1.8.14 rebuild
+
+2014-10-03 Jaroslav Lichtblau &lt;svetlemodry&#64;archlinux.org&gt;
+	* gdal 1.11.1-1
+
+2014-07-28 Jaroslav Lichtblau &lt;svetlemodry&#64;archlinux.org&gt;
+	* gdal 1.11.0-4 libspatialite soname rebuild
+
+2014-05-27 Jaroslav Lichtblau &lt;svetlemodry&#64;archlinux.org&gt;
+	* gdal 1.11.0-2 giflib soname rebuild
+
+2014-04-27 Jaroslav Lichtblau &lt;svetlemodry&#64;archlinux.org&gt;
+	* gdal 1.11.0-1
+
+2013-11-11 Jaroslav Lichtblau &lt;svetlemodry&#64;archlinux.org&gt;
+	* gdal 1.10.1-1
+
+2013-09-29 Jaroslav Lichtblau &lt;svetlemodry&#64;archlinux.org&gt;
+	* gdal 1.10.0-4 FS#36328 fix
+
+2013-05-18 Jaroslav Lichtblau &lt;svetlemodry&#64;archlinux.org&gt;
+	* gdal 1.10.0-1
+
+2011-02-19 Jaroslav Lichtblau &lt;svetlemodry&#64;archlinux.org&gt;
+	* gdal 1.8.0-1
+
+2010-11-20 Jaroslav Lichtblau &lt;svetlemodry&#64;archlinux.org&gt;
+	* Update to major release 1.7.3
+
+2010-06-26 Jaroslav Lichtblau &lt;svetlemodry&#64;archlinux.org&gt;
+	* FS#19946 fixed in 1.7.2-2
+
+2010-05-05 Jaroslav Lichtblau &lt;svetlemodry&#64;archlinux.org&gt;
+	* Update to major release 1.7.2
+</code></pre></td></tr></table>
+</div> <!-- class=content -->
+<div class="foot" style="padding-left:1em;padding-right:1em;">
+<p>Copyright &copy; 2002-2017 <a href="mailto:jvinet@zeroflux.org"
+title="contact Judd Vinet">Judd Vinet</a> and <a href="mailto:aaron@archlinux.org"
+title="contact Aaron Griffin">Aaron Griffin</a>. The Arch Linux name and logo
+are recognized trademarks. Some rights reserved. The registered trademark
+Linux&reg; is used pursuant to a sublicense from LMI, the exclusive licensee
+of Linus Torvalds, owner of the mark on a world-wide basis.</p>
+</div>
+</div> <!-- id=cgit -->
+</body>
+</html>

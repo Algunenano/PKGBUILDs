@@ -1,6 +1,11 @@
+# $Id$
+# Maintainer: Jaroslav Lichtblau <svetlemodry@archlinux.org>
+# Contributor: dibblethewrecker dibblethewrecker.at.jiwe.dot.org
+# Contributor: William Rea <sillywilly@gmail.com>
+
 _pkgname=gdal
 pkgname=$_pkgname-git
-pkgver=r35526.c42ea4168e
+pkgver=r35859.525948a48d
 pkgrel=1
 pkgdesc="A translator library for raster geospatial data formats"
 arch=('i686' 'x86_64')
@@ -13,10 +18,15 @@ optdepends=('postgresql: postgresql database support'
             'mariadb: mariadb database support'
             'perl:  perl binding support')
 options=('!emptydirs')
+changelog=$_pkgname.changelog
 provides=("${_pkgname}=${pkgver}")
 conflicts=("$_pkgname")
-source=("$_pkgname::git+https://github.com/OSGeo/gdal.git")
-sha256sums=('SKIP')
+source=("$_pkgname::git+https://github.com/OSGeo/gdal.git"
+        gdal-perl-vendor.patch
+        gdal-2.2-poppler-0.58.patch)
+sha256sums=('SKIP'
+            '20989e5fa499206b42c92280ce084fdf7b2f661a4233fc349611cc57102fe114'
+            'ea61f1a222629bf73412cd79f3a8b60a256d59b2f4aee6e8f9c450d9c672f1b4')
 
 pkgver() {
   cd "$_pkgname"
@@ -37,6 +47,13 @@ prepare() {
 
 # Fix mandir
   sed -i "s|^mandir=.*|mandir='\${prefix}/share/man'|" configure
+
+# Fix Perl bindings installation path
+  patch -Np1 -i ../../gdal-perl-vendor.patch
+
+# poppler 0.58.x API change
+# https://trac.osgeo.org/gdal/changeset/40036
+#  patch -Np4 -i ../../gdal-2.2-poppler-0.58.patch
 }
 
 build() {
@@ -60,6 +77,7 @@ build() {
 
 package () {
   cd "${_pkgname}/${_pkgname}"
+
   make DESTDIR="${pkgdir}" install
   make DESTDIR="${pkgdir}" install-man
 
@@ -70,9 +88,10 @@ package () {
   rm -f "${pkgdir}"/usr/share/man/man1/_build_gdal_src_gdal-${pkgver}_apps_.1
 
 # Remove RPATH
-  chrpath --delete "${pkgdir}"/usr/lib/perl5/${CARCH}-linux-thread-multi/auto/Geo/OSR/OSR.so
-  chrpath --delete "${pkgdir}"/usr/lib/perl5/${CARCH}-linux-thread-multi/auto/Geo/OGR/OGR.so
-  chrpath --delete "${pkgdir}"/usr/lib/perl5/${CARCH}-linux-thread-multi/auto/Geo/GDAL/GDAL.so
-  chrpath --delete "${pkgdir}"/usr/lib/perl5/${CARCH}-linux-thread-multi/auto/Geo/GDAL/Const/Const.so
-  chrpath --delete "${pkgdir}"/usr/lib/perl5/${CARCH}-linux-thread-multi/auto/Geo/GNM/GNM.so
+  eval local $(perl -V:vendorarch)
+  chrpath --delete "${pkgdir}"${vendorarch}/auto/Geo/OSR/OSR.so
+  chrpath --delete "${pkgdir}"${vendorarch}/auto/Geo/OGR/OGR.so
+  chrpath --delete "${pkgdir}"${vendorarch}/auto/Geo/GDAL/GDAL.so
+  chrpath --delete "${pkgdir}"${vendorarch}/auto/Geo/GDAL/Const/Const.so
+  chrpath --delete "${pkgdir}"${vendorarch}/auto/Geo/GNM/GNM.so
 }
