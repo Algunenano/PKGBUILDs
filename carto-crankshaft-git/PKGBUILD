@@ -1,0 +1,42 @@
+_pkgnamebase=crankshaft
+_pkgname=carto-$_pkgnamebase
+pkgname=${_pkgname}-git
+pkgver=0.5.2.r0.gce5d1f9
+pkgrel=1
+pkgdesc="CARTO Spatial Analysis extension for PostgreSQL."
+arch=(any)
+url="https://github.com/CartoDB/crankshaft"
+license=(custom)
+depends=(python2 postgresql)
+makedepends=(git)
+conflicts=("$_pkgname")
+provides=("${_pkgname}=${pkgver}")
+source=("git://github.com/CartoDB/crankshaft#branch=master")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$_pkgnamebase"
+  ( set -o pipefail
+    git describe --long 2>/dev/null | sed 's/\([^-]*-g\)/r\1/;s/-/./g' ||
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  )
+}
+
+build() {
+  cd "$_pkgnamebase/src/py/$_pkgnamebase"
+  python2 setup.py build
+}
+
+package() {
+  #LICENSE
+  cd "$_pkgnamebase"
+  install -Dm0644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+
+  #SQL functions
+  cd "src/pg"
+  DESTDIR=$pkgdir make install
+
+  #PYTHON module
+  cd "../py/$_pkgnamebase"
+  python2 setup.py install --root="${pkgdir}" || return 1
+}
