@@ -1,0 +1,9 @@
+# Ignore everything
+*
+
+# Whitelist
+!.gitignore
+!PKGBUILD
+!carto-builder.service
+!carto-resque.service
+!default_config.patch
