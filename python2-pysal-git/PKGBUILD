@@ -1,0 +1,30 @@
+# Maintainer: Javier Torres <jtorres@carto.com>
+_pkgnamebase=pysal
+_pkgname=python2-$_pkgnamebase
+pkgname=${_pkgname}-git
+pkgver=r1323.ge7763d19
+pkgrel=1
+pkgdesc='Cross-platform library of spatial analysis functions'
+arch=('any')
+url='http://pysal.org/'
+license=('BSD')
+depends=('python2' 'python2-setuptools' 'python2-scipy' 'python2-numpy')
+makedepends=('git')
+conflicts=("$_pkgname")
+provides=("${_pkgname}=${pkgver}")
+options=(!emptydirs)
+source=("git://github.com/$_pkgnamebase/$_pkgnamebase.git")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd $_pkgnamebase
+  ( set -o pipefail
+    git describe --long 2>/dev/null | cut -f 1 -d '-' --complement | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+  )
+}
+
+package() {
+  cd $_pkgnamebase
+  python2 setup.py install --root="${pkgdir}/" --optimize=1
+  install -D -m644 "LICENSE.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.txt"
+}
