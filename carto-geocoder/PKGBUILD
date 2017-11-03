@@ -1,0 +1,31 @@
+_pkgname=geocoder
+pkgname=carto-${_pkgname}-git
+pkgver=v0.0.1rc0.r40.gfcc514c
+pkgrel=1
+pkgdesc='CARTO geocoder PostgreSQL extension'
+arch=('any')
+url='https://github.com/CartoDB/data-services'
+license=('custom')
+depends=('carto-postgresql')
+makedepends=('git')
+conflicts=("$_pkgname")
+provides=("${_pkgname}=${pkgver}")
+source=("git://github.com/CartoDB/data-services.git")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "data-services"
+  ( set -o pipefail
+    git describe --long --tags 2>/dev/null | cut -f 1 -d '-' --complement | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+  )
+}
+
+package() {
+  #LICENSE
+  cd "data-services/geocoder"
+  install -Dm0644 LICENSE.md "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+
+  #Posgresql client extension
+  cd extension/
+  DESTDIR=$pkgdir make install
+}

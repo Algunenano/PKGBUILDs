@@ -1,0 +1,44 @@
+_pkgname=dataservices-api
+pkgname=carto-${_pkgname}-git
+pkgver=r0.gd8a20a6
+pkgrel=1
+pkgdesc='The CARTO Data Services SQL API'
+arch=('any')
+url='https://github.com/CartoDB/dataservices-api'
+license=('BSD')
+depends=('python2-redis' 'python2-hiredis' 'python2-dateutil' 'python2-googlemaps' 'python2-rollbar' 'plproxy')
+makedepends=('git')
+conflicts=("$_pkgname")
+provides=("${_pkgname}=${pkgver}")
+source=("git://github.com/CartoDB/$_pkgname.git")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd $_pkgname
+  ( set -o pipefail
+    git describe --long 2>/dev/null | cut -f 1 -d '-' --complement | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+  )
+}
+
+build() {
+  cd "$_pkgname/server/lib/python/cartodb_services"
+  python2 setup.py build
+}
+
+package() {
+  #LICENSE
+  cd $_pkgname
+  install -Dm0644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+
+  #Posgresql client extension
+  cd client/
+  DESTDIR=$pkgdir make install
+
+  #Postgresql server extension
+  cd ../server/extension/
+  DESTDIR=$pkgdir make install
+
+  #Python library
+  cd ../lib/python/cartodb_services
+  python2 setup.py install --root="${pkgdir}/" --optimize=1
+}
