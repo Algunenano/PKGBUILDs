@@ -1,6 +1,6 @@
 # Maintainer: Javier Torres <javier@javiertorres.eu>
 pkgname=carto-builder
-pkgver=v4.10.52.r5.bba06263b4
+pkgver=4.10.52.r5.bba06263b4
 pkgrel=1
 pkgdesc="Location Intelligence & Data Visualization tool"
 arch=('x86_64')
@@ -27,7 +27,7 @@ sha256sums=('SKIP'
 
 pkgver() {
   cd "$srcdir/cartodb"
-  printf "%s" "$(git describe --long | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
+  printf "%s" "$(git describe --long | cut -c2- | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
 }
 
 prepare() {
