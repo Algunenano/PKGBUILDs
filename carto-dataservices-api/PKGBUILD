@@ -1,16 +1,16 @@
 _pkgname=dataservices-api
 pkgname=carto-${_pkgname}-git
-pkgver=r0.gd8a20a6
+pkgver=0.15.5.r12.g4681981
 pkgrel=1
 pkgdesc='The CARTO Data Services SQL API'
 arch=('any')
 url='https://github.com/CartoDB/dataservices-api'
 license=('BSD')
-depends=('python2-redis' 'python2-hiredis' 'python2-dateutil' 'python2-googlemaps' 'python2-rollbar' 'plproxy')
+depends=('python2-redis' 'python2-hiredis' 'python2-dateutil' 'python2-googlemaps' 'python2-rollbar' 'plproxy' 'python2-rratelimit')
 makedepends=('git')
 conflicts=("$_pkgname")
 provides=("${_pkgname}=${pkgver}")
-source=("git://github.com/CartoDB/$_pkgname.git")
+source=("git://github.com/Algunenano/$_pkgname.git#branch=parallel")
 sha256sums=('SKIP')
 
 pkgver() {
@@ -32,11 +32,11 @@ package() {
 
   #Posgresql client extension
   cd client/
-  DESTDIR=$pkgdir make install
+  DESTDIR=$pkgdir make devclean install
 
   #Postgresql server extension
   cd ../server/extension/
-  DESTDIR=$pkgdir make install
+  DESTDIR=$pkgdir make devclean install
 
   #Python library
   cd ../lib/python/cartodb_services

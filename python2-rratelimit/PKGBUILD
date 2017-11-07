@@ -1,0 +1,33 @@
+_pkgnamebase=rratelimit
+_pkgname=python2-$_pkgnamebase
+pkgname=${_pkgname}-git
+pkgver=r14.20514a5
+pkgrel=1
+pkgdesc="General purpose rate limiting classes that work with redis and redis-py."
+arch=(i686 x86_64)
+url="https://github.com/heyimalex/rratelimit"
+license=(MIT)
+depends=(python2)
+makedepends=(git)
+conflicts=("$_pkgname")
+provides=("${_pkgname}=${pkgver}")
+source=("git+https://github.com/heyimalex/rratelimit")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd $_pkgnamebase
+  ( set -o pipefail
+    git describe --long 2>/dev/null | sed 's/\([^-]*-g\)/r\1/;s/-/./g' ||
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  )
+}
+
+build() {
+  cd $_pkgnamebase
+  python2 setup.py build
+}
+
+package() {
+  cd $_pkgnamebase
+  python2 setup.py install --root="${pkgdir}" || return 1
+}
