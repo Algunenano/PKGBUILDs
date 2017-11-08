@@ -1,18 +1,21 @@
-_pkgname=observatory-extension
-pkgname=carto-${_pkgname}-git
-pkgver=r3.g3c475d7
+_gitname=observatory-extension
+_pkgname=carto-$_gitname
+pkgname=${_pkgname}-git
+pkgver=r5.gf583cca
 pkgrel=1
 pkgdesc='CARTO observatory PostgreSQL extension'
 arch=('any')
 url='https://github.com/CartoDB/observatory-extension'
 license=('BSD')
-depends=('carto-postgresql')
+depends=('postgresql' 'carto-postgresql')
+conflicts=("$_pkgname")
+provides=("${_pkgname}=${pkgver}")
 makedepends=('git')
-source=("git://github.com/CartoDB/$_pkgname.git")
+source=("git://github.com/CartoDB/$_gitname.git")
 sha256sums=('SKIP')
 
 pkgver() {
-  cd $_pkgname
+  cd $_gitname
   ( set -o pipefail
     git describe --long --tags 2>/dev/null | cut -f 1 -d '-' --complement | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
   )
@@ -20,7 +23,7 @@ pkgver() {
 
 package() {
   #LICENSE
-  cd $_pkgname
+  cd $_gitname
   install -Dm0644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 
   #Posgresql client extension
