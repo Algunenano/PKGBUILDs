@@ -6,7 +6,7 @@ pkgdesc='CARTO geocoder PostgreSQL extension'
 arch=('any')
 url='https://github.com/CartoDB/data-services'
 license=('custom')
-depends=('carto-postgresql')
+depends=('postgresql' 'carto-postgresql')
 makedepends=('git')
 conflicts=("$_pkgname")
 provides=("${_pkgname}=${pkgver}")
@@ -16,7 +16,7 @@ sha256sums=('SKIP')
 pkgver() {
   cd "data-services"
   ( set -o pipefail
-    git describe --long --tags 2>/dev/null | cut -f 1 -d '-' --complement | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+    git describe --long --tags 2>/dev/null | cut -f 1 -d '-' --complement | cut -c 2- | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
   )
 }
 
