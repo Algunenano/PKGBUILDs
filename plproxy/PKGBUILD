@@ -6,13 +6,9 @@ pkgdesc='Function-based sharding for PostgreSQL'
 arch=('x86_64')
 url='https://github.com/plproxy/plproxy'
 license=('ISC')
-depends=('python2-redis' 'python2-hiredis' 'python2-dateutil' 'python2-googlemaps' 'python2-rollbar')
-makedepends=('git')
-conflicts=("$_pkgname")
-provides=("${_pkgname}=${pkgver}")
+depends=('postgresql')
 source=("https://github.com/plproxy/plproxy/archive/$_release_name.tar.gz")
 sha256sums=('cad170b0686f6f22b9df21da6e89396d430f30c15e9cf43837321cd4a2834bf1')
-
 
 build() {
   cd "$pkgname-$_release_name"
