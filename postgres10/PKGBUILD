@@ -1,5 +1,5 @@
 pkgname=postgresql
-pkgver=10.0
+pkgver=10.1
 pkgrel=1
 pkgdesc="Git version of the PostgreSQL database (includes both server and libs)"
 arch=('i686' 'x86_64')
@@ -19,7 +19,7 @@ source=("https://ftp.postgresql.org/pub/source/v${pkgver}/postgresql-${pkgver}.t
         postgresql.service postgresql.tmpfiles.conf postgresql-check-db-dir)
 install=postgresql.install
 
-sha256sums=('712f5592e27b81c5b454df96b258c14d94b6b03836831e015c65d6deeae57fd1'
+sha256sums=('3ccb4e25fe7a7ea6308dea103cac202963e6b746697366d72ec2900449a5e713'
             '8538619cb8bea51078b605ad64fe22abd6050373c7ae3ad6595178da52f6a7d9'
             '57dfd072fd7ef0018c6b0a798367aac1abb5979060ff3f9df22d1048bb71c0d5'
             '6abb842764bbed74ea4a269d24f1e73d1c0b1d8ecd6e2e6fb5fb10590298605e'
@@ -44,8 +44,7 @@ build() {
   --enable-nls \
   --enable-thread-safety \
   --with-tcl \
-  --with-uuid=e2fs \
-  --enable-debug  CPPFLAGS="-D_FORTIFY_SOURCE=2" CFLAGS="-march=native -mtune=native -O3 -pipe -fstack-protector-strong -fno-plt -fvar-tracking-assignments -Wall -Wextra -Wdouble-promotion -g3 -gdwarf-4 -fno-omit-frame-pointer" LDFLAGS="-Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now"
+  --with-uuid=e2fs
 
   make
   make -C contrib
