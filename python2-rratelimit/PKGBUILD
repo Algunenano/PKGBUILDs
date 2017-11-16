@@ -8,7 +8,7 @@ arch=(i686 x86_64)
 url="https://github.com/heyimalex/rratelimit"
 license=(MIT)
 depends=(python2)
-makedepends=(git)
+makedepends=(git python2-setuptools)
 conflicts=("$_pkgname")
 provides=("${_pkgname}=${pkgver}")
 source=("git+https://github.com/heyimalex/rratelimit")
