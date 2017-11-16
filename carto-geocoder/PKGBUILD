@@ -1,6 +1,6 @@
 _pkgname=geocoder
 pkgname=carto-${_pkgname}-git
-pkgver=v0.0.1rc0.r40.gfcc514c
+pkgver=0.0.1rc0.r40.gfcc514c
 pkgrel=1
 pkgdesc='CARTO geocoder PostgreSQL extension'
 arch=('any')
