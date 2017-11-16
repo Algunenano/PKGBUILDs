@@ -1,7 +1,7 @@
 _gitname=observatory-extension
 _pkgname=carto-$_gitname
 pkgname=${_pkgname}-git
-pkgver=r5.gf583cca
+pkgver=1.8.0.r5.gf583cca
 pkgrel=1
 pkgdesc='CARTO observatory PostgreSQL extension'
 arch=('any')
@@ -17,7 +17,7 @@ sha256sums=('SKIP')
 pkgver() {
   cd $_gitname
   ( set -o pipefail
-    git describe --long --tags 2>/dev/null | cut -f 1 -d '-' --complement | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+    git describe --long --tags 2>/dev/null | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
   )
 }
 
