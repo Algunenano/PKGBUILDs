@@ -1,17 +1,17 @@
 _pkgnamebase=crankshaft
 _pkgname=carto-$_pkgnamebase
 pkgname=${_pkgname}-git
-pkgver=0.5.2.r0.gce5d1f9
+pkgver=0.5.2.r79.g79a6ca7
 pkgrel=1
 pkgdesc="CARTO Spatial Analysis extension for PostgreSQL."
 arch=(any)
 url="https://github.com/CartoDB/crankshaft"
 license=(custom)
 depends=(python2 postgresql python2-joblib python2-pysal python2-scikit-learn)
-makedepends=(git)
+makedepends=(git python2-setuptools)
 conflicts=("$_pkgname")
 provides=("${_pkgname}=${pkgver}")
-source=("git://github.com/CartoDB/crankshaft#branch=master")
+source=("git://github.com/Algunenano/crankshaft#branch=parallel")
 sha256sums=('SKIP')
 
 pkgver() {
