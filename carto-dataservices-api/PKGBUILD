@@ -1,13 +1,13 @@
 _pkgname=dataservices-api
 pkgname=carto-${_pkgname}-git
-pkgver=0.15.5.r12.g4681981
+pkgver=0.15.5.r13.g974b182
 pkgrel=1
 pkgdesc='The CARTO Data Services SQL API'
 arch=('any')
 url='https://github.com/CartoDB/dataservices-api'
 license=('BSD')
 depends=('python2-redis' 'python2-hiredis' 'python2-dateutil' 'python2-googlemaps' 'python2-rollbar' 'plproxy' 'python2-rratelimit')
-makedepends=('git')
+makedepends=(git python2-setuptools)
 conflicts=("$_pkgname")
 provides=("${_pkgname}=${pkgver}")
 source=("git://github.com/Algunenano/$_pkgname.git#branch=parallel")
