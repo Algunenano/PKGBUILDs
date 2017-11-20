@@ -1,0 +1,74 @@
+_pkgname=postgresql
+pkgname=$_pkgname-git
+pkgver=r43850.56f3468622
+pkgrel=1
+pkgdesc="Git version of the PostgreSQL database (includes both server and libs)"
+arch=('i686' 'x86_64')
+url="https://wiki.postgresql.org/wiki/HowToBetaTest"
+license=('custom:PostgreSQL')
+backup=('etc/pam.d/postgresql' 'etc/logrotate.d/postgresql')
+depends=('libxml2' 'readline>=6.0' 'openssl>=1.0.0')
+makedepends=('python2' 'perl' 'tcl>=8.6.0')
+optdepends=('python2: for PL/Python support'
+            'perl: for PL/Perl support'
+            'tcl: for PL/Tcl support')
+conflicts=('postgresql' 'postgresql-libs' 'postgresql-testing' 'postgresql-client')
+provides=("postgresql=$pkgver" "postgresql-libs=$pkgver" "postgresql-client=$pkgver")
+source=("git://git.postgresql.org/git/postgresql.git"
+        postgresql-run-socket.patch
+        postgresql.pam
+        postgresql.logrotate
+        postgresql.service
+        postgresql.tmpfiles.conf)
+install=postgresql.install
+
+sha256sums=('SKIP'
+            '8538619cb8bea51078b605ad64fe22abd6050373c7ae3ad6595178da52f6a7d9'
+            '57dfd072fd7ef0018c6b0a798367aac1abb5979060ff3f9df22d1048bb71c0d5'
+            '6abb842764bbed74ea4a269d24f1e73d1c0b1d8ecd6e2e6fb5fb10590298605e'
+            '15cd8902e6bc5c48841abfb9d28af0508902ac31dfc56cb69d66857bc27ce966'
+            '7e086d70e0dcaa6ce45693b4e826ce92d770192b3aff5642319b1ef279d88dc4')
+
+pkgver() {
+  cd "$_pkgname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  cd "$_pkgname"
+
+  patch -Np1 < ../postgresql-run-socket.patch
+  ./configure --prefix=/usr \
+  --mandir=/usr/share/man \
+  --datadir=/usr/share/postgresql \
+  --sysconfdir=/etc \
+  --with-libxml \
+  --with-openssl \
+  --with-perl \
+  --with-python PYTHON=/usr/bin/python2 \
+  --with-pam \
+  --with-system-tzdata=/usr/share/zoneinfo \
+  --enable-nls \
+  --enable-thread-safety \
+  --with-tcl \
+  --with-uuid=e2fs
+
+  make
+  make -C contrib
+}
+
+package() {
+  cd "$_pkgname"
+
+  # install
+  make DESTDIR="${pkgdir}" install
+  make -C contrib DESTDIR="${pkgdir}" install
+
+  # install license
+  install -D -m644 COPYRIGHT "${pkgdir}/usr/share/licenses/${pkgbase}/LICENSE"
+
+  install -D -m644 "${srcdir}/postgresql.tmpfiles.conf" "${pkgdir}/usr/lib/tmpfiles.d/postgresql.conf"
+  install -D -m644 "${srcdir}/postgresql.service"       "${pkgdir}/usr/lib/systemd/system/postgresql.service"
+  install -D -m644 "${srcdir}/postgresql.pam"           "${pkgdir}/etc/pam.d/postgresql"
+  install -D -m644 "${srcdir}/postgresql.logrotate"     "${pkgdir}/etc/logrotate.d/postgresql"
+}
