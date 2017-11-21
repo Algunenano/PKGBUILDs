@@ -45,11 +45,11 @@ build() {
     XMLPARSER=libxml2 \
     ENABLE_METRICS=True \
     RUNTIME_LINK="shared" \
-    CXXFLAGS="--march=native -mtune=native -O3 -pipe -fstack-protector-strong -fno-plt -fvar-tracking-assignments -Wall -Wextra -Wdouble-promotion -g3 -gdwarf-4 -fno-omit-frame-pointer -DBOOST_OPTIONAL_CONFIG_USE_OLD_IMPLEMENTATION_OF_OPTIONAL" \
+    CXXFLAGS="$CXXFLAGS" \
     CUSTOM_CXXFLAGS="-DBOOST_OPTIONAL_CONFIG_USE_OLD_IMPLEMENTATION_OF_OPTIONAL" \
     CXX="clang++"
 
-  python2 scons/scons.py -j11 # $MAKEFLAGS
+  python2 scons/scons.py $MAKEFLAGS
 }
 
 package() {
