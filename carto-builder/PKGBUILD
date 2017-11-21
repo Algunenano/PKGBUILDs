@@ -1,6 +1,6 @@
 # Maintainer: Javier Torres <javier@javiertorres.eu>
 pkgname=carto-builder
-pkgver=4.10.52.r5.bba06263b4
+pkgver=4.10.52.r421.c8daed1542
 pkgrel=1
 pkgdesc="Location Intelligence & Data Visualization tool"
 arch=('x86_64')
@@ -15,7 +15,7 @@ replaces=()
 backup=('etc/carto/builder/config/app_config.yml' 'etc/carto/builder/config/database.yml')
 options=()
 install=
-source=('git+https://github.com/Algunenano/cartodb.git#branch=compass_failed'
+source=('git+https://github.com/Algunenano/cartodb.git#branch=build_fix_20171121'
         'default_config.patch'
         'carto-builder.service'
         'carto-resque.service')
@@ -36,8 +36,10 @@ prepare() {
 
 build() {
   cd "$srcdir/cartodb"
-  bundle install --path vendor/bundle --without test
   npm install
+  npm shrinkwrap --dev
+  npm install
+  bundle install --path vendor/bundle --without test
   git submodule update --init
   bundle exec node_modules/.bin/grunt --no-node-checker
 }
