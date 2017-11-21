@@ -5,7 +5,7 @@
 
 pkgname=mapnik-git
 _pkgname=mapnik
-pkgver=3.0.15.5.g980028d81
+pkgver=3.0.15.5.g3cc7185e1
 pkgrel=1
 pkgdesc="A powerful map rendering toolkit used by OpenStreetmap and others"
 arch=('i686' 'x86_64')
@@ -22,7 +22,7 @@ optdepends=('libxslt:         Web Map Service'
             'mod_fastcgi:     Web Map Service'
             'mod_fcgid:       Web Map Service'
             'mod_wsgi2:       Web Map Service')
-makedepends=('scons' 'boost' 'git' 'clang')
+makedepends=('boost' 'git' 'clang')
 install="mapnik.install"
 conflicts=("$_pkgname")
 provides=("${_pkgname}=${pkgver}")
@@ -30,43 +30,29 @@ source=("git://github.com/algunenano/mapnik.git#branch=performance_stats")
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/$_pkgname"
+  cd "$_pkgname"
   git describe --long | cut -c2- | sed 's/-/./g'
 }
 
 build() {
-  cd "$srcdir/$_pkgname"
+  cd "$_pkgname"
   git submodule update --init
-  scons configure \
+
+  python2 scons/scons.py configure \
     PREFIX="/usr" \
     DESTDIR="$pkgdir" \
     INPUT_PLUGINS=all \
     XMLPARSER=libxml2 \
-    DEBUG=True \
-    ENABLE_LOG=True \
-    ENABLE_STATS=True \
     ENABLE_METRICS=True \
-    DEFAULT_LOG_SEVERITY="debug"\
-    CPP_TESTS=True \
     RUNTIME_LINK="shared" \
-    CXXFLAGS="-g0 -fno-inline -fno-strict-aliasing -DDEBUG -D_GLIBCXX_DEBUG" \
+    CXXFLAGS="--march=native -mtune=native -O3 -pipe -fstack-protector-strong -fno-plt -fvar-tracking-assignments -Wall -Wextra -Wdouble-promotion -g3 -gdwarf-4 -fno-omit-frame-pointer -DBOOST_OPTIONAL_CONFIG_USE_OLD_IMPLEMENTATION_OF_OPTIONAL" \
     CUSTOM_CXXFLAGS="-DBOOST_OPTIONAL_CONFIG_USE_OLD_IMPLEMENTATION_OF_OPTIONAL" \
     CXX="clang++"
-#   scons configure \
-#     PREFIX="/usr" \
-#     DESTDIR="$pkgdir" \
-#     INPUT_PLUGINS=all \
-#     XMLPARSER=libxml2 \
-#     ENABLE_METRICS=False \
-#     RUNTIME_LINK="shared" \
-#     CXXFLAGS="-fno-inline -fno-strict-aliasing -DDEBUG -D_GLIBCXX_DEBUG" \
-#     CUSTOM_CXXFLAGS="-DBOOST_OPTIONAL_CONFIG_USE_OLD_IMPLEMENTATION_OF_OPTIONAL" \
-#     CXX="clang++"
 
-  scons -j3 # $MAKEFLAGS
+  python2 scons/scons.py -j11 # $MAKEFLAGS
 }
 
 package() {
-  cd "$srcdir/$_pkgname"
-  scons install
+  cd "$_pkgname"
+  python2 scons/scons.py install
 }
