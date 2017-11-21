@@ -28,7 +28,7 @@ prepare() {
 
 build() {
   cd "$srcdir/Windshaft-cartodb"
-  CC=gcc CXX=g++ MAKEFLAGS="-j11" npm install --python=python2 --verbose --build-from-source=mapnik
+  npm install --python=python2 --verbose --build-from-source=mapnik --build-from-source=gdal --shared_gdal
 }
 
 package() {
