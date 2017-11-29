@@ -1,7 +1,7 @@
 _pkgnamebase=crankshaft
 _pkgname=carto-$_pkgnamebase
 pkgname=${_pkgname}-git
-pkgver=0.5.2.r79.g79a6ca7
+pkgver=0.6.1.r0.g0d840b6
 pkgrel=1
 pkgdesc="CARTO Spatial Analysis extension for PostgreSQL."
 arch=(any)
@@ -11,13 +11,13 @@ depends=(python2 postgresql python2-joblib python2-pysal python2-scikit-learn)
 makedepends=(git python2-setuptools)
 conflicts=("$_pkgname")
 provides=("${_pkgname}=${pkgver}")
-source=("git://github.com/Algunenano/crankshaft#branch=parallel")
+source=("git://github.com/CartoDB/crankshaft#tag=0.6.1")
 sha256sums=('SKIP')
 
 pkgver() {
   cd "$_pkgnamebase"
   ( set -o pipefail
-    git describe --long 2>/dev/null | sed 's/\([^-]*-g\)/r\1/;s/-/./g' ||
+    git describe --long --tags 2>/dev/null | sed 's/\([^-]*-g\)/r\1/;s/-/./g' ||
     printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
   )
 }
