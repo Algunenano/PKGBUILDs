@@ -1,15 +1,15 @@
 # Maintainer: Javier Torres <jtorres@carto.com>
 pkgname=carto-tiler
-pkgver=3.12.2.r483.17e8349d
+pkgver=3.12.2.r529.a4d9d21f
 pkgrel=1
 pkgdesc="CARTO Maps API tiler. It extends Windshaft with some extra functionality"
 arch=('x86_64')
 url="https://github.com/CartoDB/Windshaft-cartodb"
 license=('BSD')
-depends=('mapnik' 'nodejs' 'pango' 'redis')
+depends=('mapnik' 'nodejs' 'pango' 'redis' 'gdal' 'mapnik')
 makedepends=('git' 'npm' 'python2' 'boost')
 backup=('etc/carto/tiler.conf')
-source=('git+https://github.com/Algunenano/Windshaft-cartodb.git#branch=performance_stats'
+source=('git+https://github.com/Algunenano/Windshaft-cartodb.git#branch=master'
         'configuration.patch'
         'carto-tiler.service')
 sha256sums=('SKIP'
