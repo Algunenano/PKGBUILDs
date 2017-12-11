@@ -1,0 +1,9 @@
+# Ignore everything
+*
+
+# Whitelist
+!.gitignore
+!PKGBUILD
+
+!carto-sql-api.service
+!configuration.patch
