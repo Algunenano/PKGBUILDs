@@ -1,6 +1,6 @@
 # Maintainer: Javier Torres <jtorres@carto.com>
 pkgname=carto-tiler
-pkgver=3.12.2.r529.a4d9d21f
+pkgver=4.3.0.r0.aa57cdef
 pkgrel=1
 pkgdesc="CARTO Maps API tiler. It extends Windshaft with some extra functionality"
 arch=('x86_64')
@@ -18,7 +18,7 @@ sha256sums=('SKIP'
 
 pkgver() {
   cd "$srcdir/Windshaft-cartodb"
-  printf "%s" "$(git describe --long | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
+  printf "%s" "$(git describe --long --tags | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
 }
 
 prepare() {
@@ -28,7 +28,12 @@ prepare() {
 
 build() {
   cd "$srcdir/Windshaft-cartodb"
-  npm install --python=python2 --verbose --build-from-source=mapnik --build-from-source=gdal --shared_gdal
+  npm install --python=python2 --build-from-source=gdal --shared_gdal --build-from-source=mapnik --production
+  #### Use node-postgres release compatible with node9
+  npm install pg@github:cartodb/node-postgres#cdb-6.1
+  cd ./node_modules/cartodb-psql/
+  rm -rf node_modules/pg/
+  npm install pg@github:cartodb/node-postgres#cdb-6.1
 }
 
 package() {
