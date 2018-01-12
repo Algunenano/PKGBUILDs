@@ -1,6 +1,6 @@
 _pkgname=postgresql
 pkgname=$_pkgname-git
-pkgver=r43850.56f3468622
+pkgver=11+master.44106.bdb70c12b3
 pkgrel=1
 pkgdesc="Git version of the PostgreSQL database (includes both server and libs)"
 arch=('i686' 'x86_64')
@@ -14,7 +14,9 @@ optdepends=('python2: for PL/Python support'
             'tcl: for PL/Tcl support')
 conflicts=('postgresql' 'postgresql-libs' 'postgresql-testing' 'postgresql-client')
 provides=("postgresql=$pkgver" "postgresql-libs=$pkgver" "postgresql-client=$pkgver")
-source=("git://git.postgresql.org/git/postgresql.git"
+_reponame="postgres"
+_branch="master"
+source=("git+https://github.com/Algunenano/$_reponame.git#branch=$_branch"
         postgresql-run-socket.patch
         postgresql.pam
         postgresql.logrotate
@@ -30,35 +32,36 @@ sha256sums=('SKIP'
             '7e086d70e0dcaa6ce45693b4e826ce92d770192b3aff5642319b1ef279d88dc4')
 
 pkgver() {
-  cd "$_pkgname"
-  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  cd "$_reponame"
+  printf "11+$_branch.%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 build() {
-  cd "$_pkgname"
+  cd "$_reponame"
 
   patch -Np1 < ../postgresql-run-socket.patch
   ./configure --prefix=/usr \
   --mandir=/usr/share/man \
   --datadir=/usr/share/postgresql \
   --sysconfdir=/etc \
+  --with-gssapi \
   --with-libxml \
   --with-openssl \
   --with-perl \
   --with-python PYTHON=/usr/bin/python2 \
+  --with-tcl \
   --with-pam \
   --with-system-tzdata=/usr/share/zoneinfo \
+  --with-uuid=e2fs \
   --enable-nls \
-  --enable-thread-safety \
-  --with-tcl \
-  --with-uuid=e2fs
+  --enable-thread-safety
 
   make
   make -C contrib
 }
 
 package() {
-  cd "$_pkgname"
+  cd "$_reponame"
 
   # install
   make DESTDIR="${pkgdir}" install
