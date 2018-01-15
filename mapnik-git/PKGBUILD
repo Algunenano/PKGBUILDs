@@ -5,7 +5,7 @@
 
 pkgname=mapnik-git
 _pkgname=mapnik
-pkgver=3.0.15.5.g3cc7185e1
+pkgver=3.0.15.2.0.g0e156c1a7
 pkgrel=1
 pkgdesc="A powerful map rendering toolkit used by OpenStreetmap and others"
 arch=('i686' 'x86_64')
@@ -26,7 +26,7 @@ makedepends=('boost' 'git' 'clang')
 install="mapnik.install"
 conflicts=("$_pkgname")
 provides=("${_pkgname}=${pkgver}")
-source=("git://github.com/algunenano/mapnik.git#branch=performance_stats")
+source=("git://github.com/CartoDB/mapnik.git#tag=v3.0.15.2")
 sha256sums=('SKIP')
 
 pkgver() {
@@ -37,7 +37,7 @@ pkgver() {
 build() {
   cd "$_pkgname"
 
-  git submodule update --init -- deps/mapbox/variant # deps/mapbox/geometry deps/mapbox/protozero
+  git submodule update --init
 
   python2 scons/scons.py configure \
     PREFIX="/usr" \
