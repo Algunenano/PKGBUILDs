@@ -1,6 +1,6 @@
 # Maintainer: Javier Torres <jtorres@carto.com>
 pkgname=carto-tiler
-pkgver=4.5.0.r170.15a81cef
+pkgver=4.8.0.r45.b88bd43d.base_metrics
 pkgrel=1
 pkgdesc="CARTO Maps API tiler. It extends Windshaft with some extra functionality"
 arch=('x86_64')
@@ -9,7 +9,10 @@ license=('BSD')
 depends=('mapnik' 'nodejs' 'pango' 'redis' 'gdal' 'mapnik')
 makedepends=('git' 'npm' 'python2' 'boost')
 backup=('etc/carto/tiler.conf')
-source=('git+https://github.com/Algunenano/Windshaft-cartodb.git#branch=master_base'
+owner='Algunenano'
+reponame='Windshaft-cartodb'
+branch='base_metrics'
+source=("git+https://github.com/$owner/$reponame.git#branch=$branch"
         'configuration.patch'
         'carto-tiler.service')
 sha256sums=('SKIP'
@@ -17,22 +20,22 @@ sha256sums=('SKIP'
             'e0a7912e260c6dfc1e0fe42fde7f01d1f2dbbab17587d1cfb43b75277745dfa7')
 
 pkgver() {
-  cd "$srcdir/Windshaft-cartodb"
-  printf "%s" "$(git describe --long --tags | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
+  cd "$reponame"
+  printf "%s.$branch" "$(git describe --long --tags | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
 }
 
 prepare() {
-  cd "$srcdir/Windshaft-cartodb"
+  cd "$reponame"
   patch -p1 < "$srcdir/configuration.patch"
 }
 
 build() {
-  cd "$srcdir/Windshaft-cartodb"
+  cd "$reponame"
   npm install --python=python2 --build-from-source=gdal --shared_gdal --build-from-source=mapnik --production
 }
 
 package() {
-  cd "$srcdir/Windshaft-cartodb"
+  cd "$reponame"
   mkdir -p "$pkgdir/opt/carto/tiler"
   cp -ar app.js assets lib node_modules package.json "$pkgdir/opt/carto/tiler"
 
