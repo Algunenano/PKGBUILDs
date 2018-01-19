@@ -5,7 +5,7 @@
 
 pkgname=mapnik-git
 _pkgname=mapnik
-pkgver=3.0.15.2.0.g0e156c1a7
+pkgver=3.0.15.18.gb5a13d00e.metrics_guards
 pkgrel=1
 pkgdesc="A powerful map rendering toolkit used by OpenStreetmap and others"
 arch=('i686' 'x86_64')
@@ -26,12 +26,14 @@ makedepends=('boost' 'git' 'clang')
 install="mapnik.install"
 conflicts=("$_pkgname")
 provides=("${_pkgname}=${pkgver}")
-source=("git://github.com/CartoDB/mapnik.git#tag=v3.0.15.2")
+_owner="Algunenano"
+_branch="metrics_guards"
+source=("git://github.com/$_owner/$_pkgname.git#branch=$_branch")
 sha256sums=('SKIP')
 
 pkgver() {
   cd "$_pkgname"
-  git describe --long --tags | cut -c2- | sed 's/-/./g'
+  printf "%s.%s" "$(git describe --long --tags | cut -c2- | sed 's/-/./g')" $_branch
 }
 
 build() {
@@ -45,9 +47,21 @@ build() {
     INPUT_PLUGINS=all \
     XMLPARSER=libxml2 \
     ENABLE_METRICS=True \
-    CXXFLAGS="$CXXFLAGS" \
-    CUSTOM_CXXFLAGS="-DBOOST_OPTIONAL_CONFIG_USE_OLD_IMPLEMENTATION_OF_OPTIONAL" \
+    CPP_TEST=False \
+    CUSTOM_CXXFLAGS="-DBOOST_OPTIONAL_CONFIG_USE_OLD_IMPLEMENTATION_OF_OPTIONAL $CXXFLAGS" \
     CXX="clang++"
+
+#   python2 scons/scons.py configure \
+#     PREFIX="/usr" \
+#     DESTDIR="$pkgdir" \
+#     INPUT_PLUGINS=all \
+#     XMLPARSER=libxml2 \
+#     ENABLE_METRICS=True \
+#     DEBUG=True \
+#     ENABLE_LOG=True \
+#     ENABLE_STATS=True \
+#     CUSTOM_CXXFLAGS="-DBOOST_OPTIONAL_CONFIG_USE_OLD_IMPLEMENTATION_OF_OPTIONAL $CXXFLAGS $DEBUG_CXXFLAGS" \
+#     CXX="clang++"
 
   python2 scons/scons.py $MAKEFLAGS
 }
