@@ -1,6 +1,6 @@
 _pkgname=postgis
 pkgname=$_pkgname-git
-pkgver=2.5_trunk_r11950.b3deaf9ee
+pkgver=2.5trunk_r11997.1bb23b887
 pkgrel=1
 pkgdesc="Adds support for geographic objects to PostgreSQL"
 arch=('i686' 'x86_64')
@@ -15,13 +15,13 @@ sha256sums=('SKIP')
 
 pkgver() {
   cd "$_pkgname"
-  printf "2.5_trunk_r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  printf "2.5trunk_r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 build() {
   cd "$_pkgname"
   ./autogen.sh
-  ./configure --prefix=/usr #CPPFLAGS="-D_FORTIFY_SOURCE=2" CFLAGS="-fstrict-aliasing -march=native -mtune=native -O3 -pipe -fstack-protector-strong -fno-plt -fvar-tracking-assignments -Wall -Wextra -Wdouble-promotion -g3 -gdwarf-4 -fno-omit-frame-pointer" LDFLAGS="-Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now"
+  ./configure --prefix=/usr #CPPFLAGS="-D_FORTIFY_SOURCE=2" CFLAGS="-fstrict-aliasing -march=native -mtune=native -O3 -pipe -fstack-protector-strong -fno-plt -Wall -Wextra -Wdouble-promotion -g3 -gdwarf-4 -fno-omit-frame-pointer" LDFLAGS="-Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now"
   make
 }
 
