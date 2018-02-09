@@ -1,6 +1,6 @@
 # Maintainer: Javier Torres <javier@javiertorres.eu>
 pkgname=carto-builder
-pkgver=4.11.10.r12.63485dacd9
+pkgver=4.11.38.r0.d40f72bdcb
 pkgrel=1
 pkgdesc="Location Intelligence & Data Visualization tool"
 arch=('x86_64')
@@ -14,14 +14,13 @@ conflicts=()
 replaces=()
 backup=('etc/carto/builder/config/app_config.yml' 'etc/carto/builder/config/database.yml')
 options=()
-install=
 source=('git+https://github.com/CartoDB/cartodb.git#branch=master'
         'default_config.patch'
         'carto-builder.service'
         'carto-resque.service')
 noextract=()
 sha256sums=('SKIP'
-            'df521d5bceed3cf9b3cc3e74a96112bddbe0c32f77b43dadc71650da99088846'
+            'b007db9d9547d85a7a95732a6ee3b7cc2aebf0db30ff2c94f46b74b7672f6533'
             '8cdc2866713b4ae0df5e007d672033b48992382186e53c8cb53d15a58755e8ae'
             '9dd127fc44c767fa6d7ba4f508680991006c5691466f9adc35a84e02a615aec7')
 

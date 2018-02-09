@@ -105,14 +105,6 @@
    avatars:
      gravatar_enabled: true
      base_url: '/assets/unversioned/images/avatars'
-@@ -326,7 +327,6 @@
-       callback_url:         'https://carto.com'
-     # google_plus:
-       # client_id: ''
--      # client_secret: ''
-       # cookie_policy: 'single_host_origin'
-       # cookie_policy: 'https://cartodb-staging.com'
-     github:
 @@ -710,9 +710,9 @@
      port: 6335
    enforce_non_empty_layer_css: false
