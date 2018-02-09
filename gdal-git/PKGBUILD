@@ -22,11 +22,9 @@ changelog=$_pkgname.changelog
 provides=("${_pkgname}=${pkgver}")
 conflicts=("$_pkgname")
 source=("$_pkgname::git+https://github.com/OSGeo/gdal.git"
-        gdal-perl-vendor.patch
-        gdal-2.2-poppler-0.58.patch)
+        gdal-perl-vendor.patch)
 sha256sums=('SKIP'
-            '20989e5fa499206b42c92280ce084fdf7b2f661a4233fc349611cc57102fe114'
-            'ea61f1a222629bf73412cd79f3a8b60a256d59b2f4aee6e8f9c450d9c672f1b4')
+            '20989e5fa499206b42c92280ce084fdf7b2f661a4233fc349611cc57102fe114')
 
 pkgver() {
   cd "$_pkgname"
@@ -54,7 +52,8 @@ prepare() {
 
 build() {
   cd "${_pkgname}/${_pkgname}"
-  export CFLAGS="$CFLAGS -fno-strict-aliasing -march=x86_64"
+  export CFLAGS="$CFLAGS -fno-strict-aliasing -march=x86-64"
+  export CXXFLAGS="$CFLAGS -fno-strict-aliasing -march=x86-64"
 
 # bug #23654
   export LDFLAGS="$LDFLAGS -Wl,--as-needed"
