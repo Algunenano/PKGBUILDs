@@ -5,7 +5,7 @@
 
 _pkgname=gdal
 pkgname=$_pkgname-git
-pkgver=r37000.74107e5379
+pkgver=r37041.7522177566.proj.4.9.3.1
 pkgrel=1
 pkgdesc="A translator library for raster geospatial data formats"
 arch=('i686' 'x86_64')
@@ -30,7 +30,7 @@ pkgver() {
   cd "$_pkgname"
   ( set -o pipefail
     git describe --long 2>/dev/null | sed 's/\([^-]*-g\)/r\1/;s/-/./g' ||
-    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+    printf "r%s.%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)" "$(pacman -Q proj | sed 's/[ \-]/./g')"
   )
 }
 
@@ -52,8 +52,7 @@ prepare() {
 
 build() {
   cd "${_pkgname}/${_pkgname}"
-  export CFLAGS="$CFLAGS -fno-strict-aliasing -march=x86-64"
-  export CXXFLAGS="$CFLAGS -fno-strict-aliasing -march=x86-64"
+  export CFLAGS="$CFLAGS -fno-strict-aliasing"
 
 # bug #23654
   export LDFLAGS="$LDFLAGS -Wl,--as-needed"
