@@ -1,0 +1,49 @@
+# $Id$
+# Maintainer: Jaroslav Lichtblau <svetlemodry@archlinux.org>
+# Contributor: Mateusz Herych <heniekk@gmail.com>
+# Contributor: dibblethewrecker <dibblethewrecker.at.jiwe.dot.org>
+# Contributor: William Rea <sillywilly@gmail.com>
+
+_pkgname=proj
+pkgname=$_pkgname-git
+pkgver=4.9.0.r1003.ga0dc7e93
+pkgrel=1
+pkgdesc='Cartographic Projections library'
+arch=('x86_64')
+url="http://trac.osgeo.org/proj/"
+license=('MIT')
+makedepends=('autoconf' 'git')
+provides=("${_pkgname}=${pkgver}")
+conflicts=("$_pkgname")
+source=("$_pkgname::git+https://github.com/OSGeo/proj.4.git"
+        http://download.osgeo.org/proj/proj-datumgrid-1.6.zip)
+sha256sums=('SKIP'
+            '054e7b63b474926c79f25fbe5cd8760351e8d93e5a167b5473e993c01bb08866')
+
+pkgver() {
+  cd "$_pkgname"
+  ( set -o pipefail
+    git describe --long 2>/dev/null | sed 's/\([^-]*-g\)/r\1/;s/-/./g' ||
+    printf "r%s.%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  )
+}
+
+prepare() {
+  bsdtar -xzvf "${srcdir}"/proj-datumgrid-1.6.zip -C "${srcdir}"/$_pkgname/nad
+}
+
+build(){
+  cd $_pkgname
+
+  autoreconf -if
+  ./configure --prefix=/usr
+  make
+}
+
+package() {
+  cd $_pkgname
+
+  make DESTDIR="${pkgdir}" install
+
+  install -Dm644 COPYING "${pkgdir}"/usr/share/licenses/$pkgname/LICENSE
+}
