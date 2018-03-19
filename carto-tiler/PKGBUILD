@@ -1,6 +1,6 @@
 # Maintainer: Javier Torres <jtorres@carto.com>
 pkgname=carto-tiler
-pkgver=4.8.0.r45.b88bd43d.base_metrics
+pkgver=5.4.0.r4.e9231680.master_base.mapnik.3.0.15.6.3.gb191d4515.1
 pkgrel=1
 pkgdesc="CARTO Maps API tiler. It extends Windshaft with some extra functionality"
 arch=('x86_64')
@@ -11,7 +11,7 @@ makedepends=('git' 'npm' 'python2' 'boost')
 backup=('etc/carto/tiler.conf')
 owner='Algunenano'
 reponame='Windshaft-cartodb'
-branch='base_metrics'
+branch='master_base'
 source=("git+https://github.com/$owner/$reponame.git#branch=$branch"
         'configuration.patch'
         'carto-tiler.service')
@@ -21,7 +21,7 @@ sha256sums=('SKIP'
 
 pkgver() {
   cd "$reponame"
-  printf "%s.$branch" "$(git describe --long --tags | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
+  printf "%s.$branch.mapnik.%s" "$(git describe --long --tags | sed 's/\([^-]*-\)g/r\1/;s/-/./g')" "$(pacman -Q mapnik-git | awk '{print $2}' | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
 }
 
 prepare() {
@@ -31,7 +31,8 @@ prepare() {
 
 build() {
   cd "$reponame"
-  npm install --python=python2 --build-from-source=gdal --shared_gdal --build-from-source=mapnik --production
+  rm -rf node_modules/ yarn.lock package-lock.json
+  NODE_MAPNIK_BUILD=release_base npm_config_python=python2 npm install --production --build-from-source --shared_gdal
 }
 
 package() {
