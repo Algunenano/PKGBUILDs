@@ -5,13 +5,13 @@
 
 pkgname=mapnik-git
 _pkgname=mapnik
-pkgver=3.0.15.18.gb5a13d00e.metrics_guards
+pkgver=3.0.15.6.3.gb191d4515
 pkgrel=1
 pkgdesc="A powerful map rendering toolkit used by OpenStreetmap and others"
 arch=('i686' 'x86_64')
 url="http://mapnik.org/"
 license=('LGPL')
-depends=('boost-libs' 'icu' 'libpng' 'libjpeg' 'libtiff' 'freetype2'
+depends=('boost-libs' 'icu' 'libpng' 'libjpeg-turbo' 'libtiff' 'freetype2'
 	 'libxml2' 'python2' 'proj' 'cairo' 'cairomm' 'python2-cairo'
 	 'postgresql-libs' 'postgis' 'gdal' 'curl' 'libltdl')
 optdepends=('libxslt:         Web Map Service'
@@ -26,20 +26,21 @@ makedepends=('boost' 'git' 'clang')
 install="mapnik.install"
 conflicts=("$_pkgname")
 provides=("${_pkgname}=${pkgver}")
-_owner="Algunenano"
-_branch="metrics_guards"
+_owner="CartoDB"
+_branch="v3.0.15-carto"
 source=("git://github.com/$_owner/$_pkgname.git#branch=$_branch")
 sha256sums=('SKIP')
 
 pkgver() {
   cd "$_pkgname"
-  printf "%s.%s" "$(git describe --long --tags | cut -c2- | sed 's/-/./g')" $_branch
+  printf "%s" "$(git describe --long --tags | cut -c2- | sed 's/-/./g')"
 }
 
 build() {
   cd "$_pkgname"
 
-  git submodule update --init
+  git submodule update --init deps/mapbox/variant
+  rm -f config.py
 
   python2 scons/scons.py configure \
     PREFIX="/usr" \
@@ -47,9 +48,29 @@ build() {
     INPUT_PLUGINS=all \
     XMLPARSER=libxml2 \
     ENABLE_METRICS=True \
+    ENABLE_STATS=False \
     CPP_TEST=False \
-    CUSTOM_CXXFLAGS="-DBOOST_OPTIONAL_CONFIG_USE_OLD_IMPLEMENTATION_OF_OPTIONAL $CXXFLAGS" \
+    DEBUG=False \
+    ENABLE_LOG=False \
+    CUSTOM_CXXFLAGS="-DBOOST_OPTIONAL_CONFIG_USE_OLD_IMPLEMENTATION_OF_OPTIONAL $CXXFLAGS $DEBUG_CXXFLAGS" \
+    CC="clang" \
     CXX="clang++"
+
+# MSAN_OPTIONS=halt_on_error=0,exitcode=0 \
+#   python2 scons/scons.py configure \
+#     PREFIX="/usr" \
+#     DESTDIR="$pkgdir" \
+#     INPUT_PLUGINS=all \
+#     XMLPARSER=libxml2 \
+#     ENABLE_METRICS=True \
+#     ENABLE_STATS=False \
+#     CPP_TEST=True \
+#     DEBUG=False \
+#     ENABLE_LOG=False \
+#     CUSTOM_CXXFLAGS="-march=native -mtune=native -O2 -pipe -fstack-protector-strong -fno-plt -Wall -Wextra -Wconversion -g3 -gdwarf-4 -fno-omit-frame-pointer -DBOOST_OPTIONAL_CONFIG_USE_OLD_IMPLEMENTATION_OF_OPTIONAL -fsanitize=memory -fsanitize-recover=memory -fsanitize-blacklist=/home/raul/dev/public/mapnik/blacklist.supp -fsanitize-memory-track-origins=2" \
+#     CUSTOM_LDFLAGS="-fsanitize=memory -fsanitize-recover=memory -fsanitize-blacklist=/home/raul/dev/public/mapnik/blacklist.supp -fsanitize-memory-track-origins=2" \
+#     CC="/bin/clang" \
+#     CXX="/bin/clang++"
 
 #   python2 scons/scons.py configure \
 #     PREFIX="/usr" \
