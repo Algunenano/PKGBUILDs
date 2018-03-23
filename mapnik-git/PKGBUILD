@@ -5,7 +5,7 @@
 
 pkgname=mapnik-git
 _pkgname=mapnik
-pkgver=3.0.15.6.3.gb191d4515
+pkgver=3.0.15.4.45.ga01967dec.cache_metrics
 pkgrel=1
 pkgdesc="A powerful map rendering toolkit used by OpenStreetmap and others"
 arch=('i686' 'x86_64')
@@ -26,21 +26,20 @@ makedepends=('boost' 'git' 'clang')
 install="mapnik.install"
 conflicts=("$_pkgname")
 provides=("${_pkgname}=${pkgver}")
-_owner="CartoDB"
-_branch="v3.0.15-carto"
+_owner="Algunenano"
+_branch="cache_metrics"
 source=("git://github.com/$_owner/$_pkgname.git#branch=$_branch")
 sha256sums=('SKIP')
 
 pkgver() {
   cd "$_pkgname"
-  printf "%s" "$(git describe --long --tags | cut -c2- | sed 's/-/./g')"
+  printf "%s.$_branch" "$(git describe --long --tags | cut -c2- | sed 's/-/./g')" 
 }
 
 build() {
   cd "$_pkgname"
 
   git submodule update --init deps/mapbox/variant
-  rm -f config.py
 
   python2 scons/scons.py configure \
     PREFIX="/usr" \
@@ -49,12 +48,26 @@ build() {
     XMLPARSER=libxml2 \
     ENABLE_METRICS=True \
     ENABLE_STATS=False \
-    CPP_TEST=False \
+    CPP_TESTS=False \
     DEBUG=False \
     ENABLE_LOG=False \
     CUSTOM_CXXFLAGS="-DBOOST_OPTIONAL_CONFIG_USE_OLD_IMPLEMENTATION_OF_OPTIONAL $CXXFLAGS $DEBUG_CXXFLAGS" \
     CC="clang" \
     CXX="clang++"
+
+#   python2 scons/scons.py configure \
+#     PREFIX="/usr" \
+#     DESTDIR="$pkgdir" \
+#     INPUT_PLUGINS=all \
+#     XMLPARSER=libxml2 \
+#     ENABLE_METRICS=True \
+#     ENABLE_STATS=False \
+#     CPP_TESTS=True \
+#     DEBUG=False \
+#     ENABLE_LOG=False \
+#     CUSTOM_CXXFLAGS="-march=native -mtune=native -O3 -pipe -fstack-protector-strong -fno-plt -Wall -Wextra -g3 -gdwarf-4 -fno-omit-frame-pointer -DBOOST_OPTIONAL_CONFIG_USE_OLD_IMPLEMENTATION_OF_OPTIONAL" \
+#     CC="clang" \
+#     CXX="clang++"
 
 # MSAN_OPTIONS=halt_on_error=0,exitcode=0 \
 #   python2 scons/scons.py configure \
@@ -64,7 +77,7 @@ build() {
 #     XMLPARSER=libxml2 \
 #     ENABLE_METRICS=True \
 #     ENABLE_STATS=False \
-#     CPP_TEST=True \
+#     CPP_TESTS=True \
 #     DEBUG=False \
 #     ENABLE_LOG=False \
 #     CUSTOM_CXXFLAGS="-march=native -mtune=native -O2 -pipe -fstack-protector-strong -fno-plt -Wall -Wextra -Wconversion -g3 -gdwarf-4 -fno-omit-frame-pointer -DBOOST_OPTIONAL_CONFIG_USE_OLD_IMPLEMENTATION_OF_OPTIONAL -fsanitize=memory -fsanitize-recover=memory -fsanitize-blacklist=/home/raul/dev/public/mapnik/blacklist.supp -fsanitize-memory-track-origins=2" \
