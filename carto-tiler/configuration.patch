@@ -1,5 +1,5 @@
 diff --git a/config/environments/development.js.example b/config/environments/development.js.example
-index df2273c7..8ad84600 100644
+index 12de0912..92b0f591 100644
 --- a/config/environments/development.js.example
 +++ b/config/environments/development.js.example
 @@ -37,8 +37,8 @@ var config = {
@@ -80,11 +80,3 @@ index df2273c7..8ad84600 100644
          },
          // Define max execution time in ms for analyses or tags
          // If analysis or tag are not found in redis this values will be used as default.
-@@ -344,6 +345,7 @@ var config = {
-         cdbQueryTablesFromPostgres: true,
-         // whether in mapconfig is available stats & metadata for each layer
-         layerStats: true
-+
-     }
- };
- 
