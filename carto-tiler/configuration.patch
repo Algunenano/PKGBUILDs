@@ -1,5 +1,5 @@
 diff --git a/config/environments/development.js.example b/config/environments/development.js.example
-index 12de0912..92b0f591 100644
+index 12de0912..47423fc6 100644
 --- a/config/environments/development.js.example
 +++ b/config/environments/development.js.example
 @@ -37,8 +37,8 @@ var config = {
@@ -22,16 +22,29 @@ index 12de0912..92b0f591 100644
          simplify_geometries: true,
          use_overviews: true, // use overviews to retrieve raster
          /*
-@@ -94,7 +94,7 @@ var config = {
+@@ -92,9 +92,10 @@ var config = {
+          * close any connection for the server's lifetime
+          */
          persist_connection: false,
-         max_size: 500
+-        max_size: 500
++        max_size: 500,
++        twkb_encoding: true
      }
 -    ,mapnik_version: undefined
 +    ,mapnik_version: "3.0.15" 
      ,mapnik_tile_format: 'png8:m=h'
      ,statsd: {
          host: 'localhost',
-@@ -136,7 +136,7 @@ var config = {
+@@ -105,7 +106,7 @@ var config = {
+     }
+     ,renderer: {
+       // Milliseconds since last access before renderer cache item expires
+-      cache_ttl: 60000,
++      cache_ttl: 0,
+       statsInterval: 5000, // milliseconds between each report to statsd about number of renderers and mapnik pool status
+       mvt: {
+         //If enabled, MVTs will be generated with PostGIS directly, instead of using Mapnik,
+@@ -136,7 +137,7 @@ var config = {
            // to be rendered at once. If all of them will be requested
            // we'd have saved time. If only one will be used, we'd have
            // wasted time.
@@ -40,7 +53,13 @@ index 12de0912..92b0f591 100644
  
            // tilelive-mapnik uses an internal cache to store tiles/grids
            // generated when using metatile. This options allow to tune
-@@ -151,7 +151,7 @@ var config = {
+@@ -146,12 +147,12 @@ var config = {
+               ttl: 0,
+               // Whether an object must be removed after the first hit
+               // Usually you want to use `true` here when ttl>0.
+-              deleteOnHit: false
++              deleteOnHit: true
+           },
  
            // Override metatile behaviour depending on the format
            formatMetatile: {
@@ -49,9 +68,26 @@ index 12de0912..92b0f591 100644
                'grid.json': 1
            },
  
-@@ -205,12 +205,13 @@ var config = {
+@@ -183,7 +184,7 @@ var config = {
+               // the same tile will result in an immediate response, however that will use a lot of more application
+               // memory. If we want to enforce this behaviour we have to implement a cache eviction policy for the
+               // internal cache.
+-              cacheOnTimeout: true
++              cacheOnTimeout: false
+           },
+ 
+           geojson: {
+@@ -199,18 +200,19 @@ var config = {
+               // SQL queries will be wrapped with ST_ClipByBox2D
+               // Returning the portion of a geometry falling within a rectangle
+               // It will only work if snapToGrid is enabled
+-              clipByBox2d: false, // this requires postgis >=2.2 and geos >=3.5
++              clipByBox2d: true, // this requires postgis >=2.2 and geos >=3.5
+               // geometries will be simplified using ST_RemoveRepeatedPoints
+               // which cost is no more expensive than snapping and results are
                // much closer to the original geometry
-               removeRepeatedPoints: false // this requires postgis >=2.2
+-              removeRepeatedPoints: false // this requires postgis >=2.2
++              removeRepeatedPoints: true // this requires postgis >=2.2
            },
 +
            // If enabled Mapnik will reuse the features retrieved from the database
@@ -60,11 +96,11 @@ index 12de0912..92b0f591 100644
  
            // Require metrics to the renderer
 -          metrics: false
-+          metrics: true 
++          metrics: true
        },
        http: {
            timeout: 2000, // the timeout in ms for a http tile request
-@@ -250,13 +251,13 @@ var config = {
+@@ -250,13 +252,13 @@ var config = {
              // where the SQL API is running, it will use a custom Host header to specify the username.
              endpoint: 'http://127.0.0.1:8080/api/v2/sql/job',
              // the template to use for adding the host header in the batch api requests

@@ -16,7 +16,7 @@ source=("git+https://github.com/$owner/$reponame.git#branch=$branch"
         'configuration.patch'
         'carto-tiler.service')
 sha256sums=('SKIP'
-            'd69bd66580579e773c71c93336517614be8cf124ffed512f09665e176d466aba'
+            'eecc12b87ca196bcf4baf67952078513b465cb813ea5a7043d48447e44cd942a'
             'e0a7912e260c6dfc1e0fe42fde7f01d1f2dbbab17587d1cfb43b75277745dfa7')
 
 pkgver() {
