@@ -5,3 +5,4 @@
 !.gitignore
 !PKGBUILD
 !utf-8.diff
+!assert.patch

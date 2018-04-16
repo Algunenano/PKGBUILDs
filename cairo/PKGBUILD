@@ -13,9 +13,11 @@ depends=(libpng libxrender libxext fontconfig pixman glib2 lzo)
 makedepends=(librsvg gtk2 poppler-glib libspectre gtk-doc valgrind git)
 _commit=7149686456ec3c481fa1d3dbe76a0dab1e42b519  # tags/1.15.12^0
 source=("git+https://anongit.freedesktop.org/git/cairo#commit=$_commit"
-        utf-8.diff)
+        utf-8.diff
+        assert.patch)
 sha1sums=('SKIP'
-          '3f680dea8533bcce4ca2af5d25c546235ef7b339')
+          '3f680dea8533bcce4ca2af5d25c546235ef7b339'
+          '753decfcd0aa7620c3c87825ecd0f8e64cd123d1')
 
 pkgver() {
   cd $pkgname
@@ -27,12 +29,11 @@ prepare() {
 
   # Fix non-UTF-8 sources giving gtk-doc trouble
   patch -Np1 -i ../utf-8.diff
+  patch -Np1 -i ../assert.patch
 
   # Update gtk-doc
   cp /usr/share/aclocal/gtk-doc.m4 build/aclocal.gtk-doc.m4
   cp /usr/share/gtk-doc/data/gtk-doc.make build/Makefile.am.gtk-doc
-
-  git revert 42f07ef90
 
   NOCONFIGURE=1 ./autogen.sh
 }
