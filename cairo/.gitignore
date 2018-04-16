@@ -1,0 +1,7 @@
+# Ignore everything
+*
+
+# Whitelist
+!.gitignore
+!PKGBUILD
+!utf-8.diff
