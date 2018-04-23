@@ -1,6 +1,6 @@
 # Maintainer: Javier Torres <jtorres@carto.com>
 pkgname=carto-tiler
-pkgver=6.0.0.r101.e48f75b0.master_base.mapnik.3.0.15.7.3.gf589b7213.1
+pkgver=6.0.0.r180.27ad0af1.master_base_cache_move.mapnik.3.0.15.7.10.ge2e46cf7e.cache_move.1
 pkgrel=1
 pkgdesc="CARTO Maps API tiler. It extends Windshaft with some extra functionality"
 arch=('x86_64')
@@ -11,12 +11,12 @@ makedepends=('git' 'npm' 'python2' 'boost')
 backup=('etc/carto/tiler.conf')
 owner='Algunenano'
 reponame='Windshaft-cartodb'
-branch='master_base'
+branch='master_base_cache_move'
 source=("git+https://github.com/$owner/$reponame.git#branch=$branch"
         'configuration.patch'
         'carto-tiler.service')
 sha256sums=('SKIP'
-            'eecc12b87ca196bcf4baf67952078513b465cb813ea5a7043d48447e44cd942a'
+            '372ba37251abbaef2ebb08109d46ffc7cc1916a2393f64b3eebb821914bcaac3'
             'e0a7912e260c6dfc1e0fe42fde7f01d1f2dbbab17587d1cfb43b75277745dfa7')
 
 pkgver() {

@@ -1,5 +1,5 @@
 diff --git a/config/environments/development.js.example b/config/environments/development.js.example
-index 12de0912..47423fc6 100644
+index 842f55d2..65d465af 100644
 --- a/config/environments/development.js.example
 +++ b/config/environments/development.js.example
 @@ -37,8 +37,8 @@ var config = {
@@ -77,7 +77,7 @@ index 12de0912..47423fc6 100644
            },
  
            geojson: {
-@@ -199,18 +200,19 @@ var config = {
+@@ -199,18 +200,18 @@ var config = {
                // SQL queries will be wrapped with ST_ClipByBox2D
                // Returning the portion of a geometry falling within a rectangle
                // It will only work if snapToGrid is enabled
@@ -89,18 +89,17 @@ index 12de0912..47423fc6 100644
 -              removeRepeatedPoints: false // this requires postgis >=2.2
 +              removeRepeatedPoints: true // this requires postgis >=2.2
            },
-+
            // If enabled Mapnik will reuse the features retrieved from the database
            // instead of requesting them once per style inside a layer
            'cache-features': true,
  
            // Require metrics to the renderer
--          metrics: false
-+          metrics: true
-       },
-       http: {
-           timeout: 2000, // the timeout in ms for a http tile request
-@@ -250,13 +252,13 @@ var config = {
+-          metrics: false,
++          metrics: true,
+ 
+           // Options for markers attributes, ellipses and images caches
+           markers_symbolizer_caches: {
+@@ -255,13 +256,13 @@ var config = {
              // where the SQL API is running, it will use a custom Host header to specify the username.
              endpoint: 'http://127.0.0.1:8080/api/v2/sql/job',
              // the template to use for adding the host header in the batch api requests
