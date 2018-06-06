@@ -1,8 +1,8 @@
 diff --git a/config/environments/development.js.example b/config/environments/development.js.example
-index 842f55d2..65d465af 100644
+index d6345b82..f34149bd 100644
 --- a/config/environments/development.js.example
 +++ b/config/environments/development.js.example
-@@ -37,8 +37,8 @@ var config = {
+@@ -70,8 +70,8 @@ var config = {
      //  2. {{=it.user}}: will use the username as extraced from `user_from_host` or `base_url_detached`.
      //  3. {{=it.port}}: will use the `port` from this very same configuration file.
      ,resources_url_templates: {
@@ -13,29 +13,16 @@ index 842f55d2..65d465af 100644
      }
  
      // Maximum number of connections for one process
-@@ -81,7 +81,7 @@ var config = {
-         srid: 4326,
-         */
-         // max number of rows to return when querying data, 0 means no limit
--        row_limit: 65535,
-+        row_limit: 0,
-         simplify_geometries: true,
-         use_overviews: true, // use overviews to retrieve raster
-         /*
-@@ -92,9 +92,10 @@ var config = {
-          * close any connection for the server's lifetime
-          */
-         persist_connection: false,
--        max_size: 500
-+        max_size: 500,
-+        twkb_encoding: true
+@@ -113,7 +113,7 @@ var config = {
+             reapInterval: 1000
+         }
      }
 -    ,mapnik_version: undefined
-+    ,mapnik_version: "3.0.15" 
++    ,mapnik_version: "3.0.15"
      ,mapnik_tile_format: 'png8:m=h'
      ,statsd: {
          host: 'localhost',
-@@ -105,7 +106,7 @@ var config = {
+@@ -124,7 +124,7 @@ var config = {
      }
      ,renderer: {
        // Milliseconds since last access before renderer cache item expires
@@ -44,7 +31,7 @@ index 842f55d2..65d465af 100644
        statsInterval: 5000, // milliseconds between each report to statsd about number of renderers and mapnik pool status
        mvt: {
          //If enabled, MVTs will be generated with PostGIS directly, instead of using Mapnik,
-@@ -136,7 +137,7 @@ var config = {
+@@ -147,7 +147,7 @@ var config = {
            // to be rendered at once. If all of them will be requested
            // we'd have saved time. If only one will be used, we'd have
            // wasted time.
@@ -53,7 +40,7 @@ index 842f55d2..65d465af 100644
  
            // tilelive-mapnik uses an internal cache to store tiles/grids
            // generated when using metatile. This options allow to tune
-@@ -146,12 +147,12 @@ var config = {
+@@ -157,12 +157,12 @@ var config = {
                ttl: 0,
                // Whether an object must be removed after the first hit
                // Usually you want to use `true` here when ttl>0.
@@ -68,7 +55,35 @@ index 842f55d2..65d465af 100644
                'grid.json': 1
            },
  
-@@ -183,7 +184,7 @@ var config = {
+@@ -182,7 +182,7 @@ var config = {
+           // SQL queries will be wrapped with ST_ClipByBox2D
+           // Returning the portion of a geometry falling within a rectangle
+           // It will only work if snapToGrid is enabled
+-          clipByBox2d: false, // this requires postgis >=2.2 and geos >=3.5
++          clipByBox2d: true, // this requires postgis >=2.2 and geos >=3.5
+ 
+           postgis: {
+               // Parameters to pass to datasource plugin of mapnik
+@@ -193,7 +193,7 @@ var config = {
+               port: 5432,
+               extent: "-20037508.3,-20037508.3,20037508.3,20037508.3",
+               // max number of rows to return when querying data, 0 means no limit
+-              row_limit: 65535,
++              row_limit: 0,
+               /*
+                * Set persist_connection to false if you want
+                * database connections to be closed on renderer
+@@ -204,7 +204,8 @@ var config = {
+                persist_connection: false,
+                simplify_geometries: true,
+                use_overviews: true, // use overviews to retrieve raster
+-               max_size: 500
++               max_size: 500,
++               twkb_encoding: true
+           },
+ 
+           limits: {
+@@ -217,7 +218,7 @@ var config = {
                // the same tile will result in an immediate response, however that will use a lot of more application
                // memory. If we want to enforce this behaviour we have to implement a cache eviction policy for the
                // internal cache.
@@ -76,21 +91,8 @@ index 842f55d2..65d465af 100644
 +              cacheOnTimeout: false
            },
  
-           geojson: {
-@@ -199,18 +200,18 @@ var config = {
-               // SQL queries will be wrapped with ST_ClipByBox2D
-               // Returning the portion of a geometry falling within a rectangle
-               // It will only work if snapToGrid is enabled
--              clipByBox2d: false, // this requires postgis >=2.2 and geos >=3.5
-+              clipByBox2d: true, // this requires postgis >=2.2 and geos >=3.5
-               // geometries will be simplified using ST_RemoveRepeatedPoints
-               // which cost is no more expensive than snapping and results are
-               // much closer to the original geometry
--              removeRepeatedPoints: false // this requires postgis >=2.2
-+              removeRepeatedPoints: true // this requires postgis >=2.2
-           },
            // If enabled Mapnik will reuse the features retrieved from the database
-           // instead of requesting them once per style inside a layer
+@@ -225,7 +226,7 @@ var config = {
            'cache-features': true,
  
            // Require metrics to the renderer
@@ -99,7 +101,7 @@ index 842f55d2..65d465af 100644
  
            // Options for markers attributes, ellipses and images caches
            markers_symbolizer_caches: {
-@@ -255,13 +256,13 @@ var config = {
+@@ -261,13 +262,13 @@ var config = {
              // where the SQL API is running, it will use a custom Host header to specify the username.
              endpoint: 'http://127.0.0.1:8080/api/v2/sql/job',
              // the template to use for adding the host header in the batch api requests
