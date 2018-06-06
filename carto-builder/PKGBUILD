@@ -1,13 +1,13 @@
 # Maintainer: Javier Torres <javier@javiertorres.eu>
 pkgname=carto-builder
-pkgver=4.11.38.r0.d40f72bdcb
+pkgver=4.12.14.r21.51e4a9f851
 pkgrel=1
 pkgdesc="Location Intelligence & Data Visualization tool"
 arch=('x86_64')
 url="https://github.com/CartoDB/cartodb"
 license=('BSD')
 groups=()
-depends=('ruby-bundler' 'postgis' 'redis' 'python2' 'unp')
+depends=('ruby-bundler' 'postgis' 'redis' 'python2' 'unp' 'python2-gdal')
 makedepends=('git' 'npm')
 provides=()
 conflicts=()
