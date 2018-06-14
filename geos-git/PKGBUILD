@@ -1,6 +1,6 @@
 _pkgname=geos
 pkgname=$_pkgname-git
-pkgver=r3812.81c6d4ad
+pkgver=3.7.0alpha.r0.g1aef6fac
 pkgrel=1
 pkgdesc="C++ port of the Java Topology Suite"
 arch=('i686' 'x86_64')
@@ -17,7 +17,7 @@ sha256sums=('SKIP')
 pkgver() {
   cd "$_pkgname"
   ( set -o pipefail
-    git describe --long 2>/dev/null | sed 's/\([^-]*-g\)/r\1/;s/-/./g' ||
+    git describe --long --tags 2>/dev/null | sed 's/\([^-]*-g\)/r\1/;s/-/./g' ||
     printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
   )
 }
