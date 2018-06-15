@@ -1,6 +1,6 @@
 # Maintainer: Javier Torres <jtorres@carto.com>
 pkgname=carto-tiler
-pkgver=6.0.0.r180.27ad0af1.master_base_cache_move.mapnik.3.0.15.7.10.ge2e46cf7e.cache_move.1
+pkgver=6.1.0.r381.90efe14b.master.mapnik3.0.15.9.5.gd59147c65.v3.0.15.carto.1.node9.11.1.1
 pkgrel=1
 pkgdesc="CARTO Maps API tiler. It extends Windshaft with some extra functionality"
 arch=('x86_64')
@@ -11,17 +11,18 @@ makedepends=('git' 'npm' 'python2' 'boost')
 backup=('etc/carto/tiler.conf')
 owner='Algunenano'
 reponame='Windshaft-cartodb'
-branch='master_base_cache_move'
+branch='master'
 source=("git+https://github.com/$owner/$reponame.git#branch=$branch"
         'configuration.patch'
         'carto-tiler.service')
 sha256sums=('SKIP'
-            '372ba37251abbaef2ebb08109d46ffc7cc1916a2393f64b3eebb821914bcaac3'
+            '9f092ee9f8eb937b49d530485fe34d67d818c6e9267709bff161eb5ceb22ef6c'
             'e0a7912e260c6dfc1e0fe42fde7f01d1f2dbbab17587d1cfb43b75277745dfa7')
 
 pkgver() {
   cd "$reponame"
-  printf "%s.$branch.mapnik.%s" "$(git describe --long --tags | sed 's/\([^-]*-\)g/r\1/;s/-/./g')" "$(pacman -Q mapnik-git | awk '{print $2}' | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
+  printf "%s.%s.mapnik%s.node%s" "$(git describe --long --tags | sed 's/\([^-]*-\)g/r\1/;s/-/./g')" $(echo "$branch" | sed 's/\([^-]*-\)g/r\1/;s/-/./g') "$(pacman -Q mapnik-git | awk '{print $2}' | sed 's/\([^-]*-\)g/r\1/;s/-/./g')" "$(pacman -Q nodejs | awk '{print $2}' | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
+  #printf "%s.$branch.mapnik.%s" "$(git describe --long --tags | sed 's/\([^-]*-\)g/r\1/;s/-/./g')" "static6"
 }
 
 prepare() {
@@ -31,8 +32,8 @@ prepare() {
 
 build() {
   cd "$reponame"
-  rm -rf node_modules/ yarn.lock package-lock.json
   NODE_MAPNIK_BUILD=release_base npm_config_python=python2 npm install --production --build-from-source --shared_gdal
+  #npm install --production
 }
 
 package() {
