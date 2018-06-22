@@ -1,27 +1,28 @@
 _pkgname=postgis
 pkgname=$_pkgname-git
-pkgver=2.5trunk_r11997.1bb23b887
+pkgver=2.5_trunk_mvt_rework.12203.1af30fb4a
 pkgrel=1
 pkgdesc="Adds support for geographic objects to PostgreSQL"
 arch=('i686' 'x86_64')
 url="http://postgis.net/"
 license=('GPL')
 depends=('postgresql' 'gdal' 'json-c' 'proj' 'protobuf-c')
-makedepends=('git')
+makedepends=('git' 'clang')
 provides=("${_pkgname}=${pkgver}")
 conflicts=("$_pkgname")
-source=("$_pkgname::git+https://github.com/Algunenano/postgis.git#branch=svn-trunk")
+_branch="trunk_mvt_rework"
+source=("$_pkgname::git+https://github.com/Algunenano/postgis.git#branch=$_branch")
 sha256sums=('SKIP')
 
 pkgver() {
   cd "$_pkgname"
-  printf "2.5trunk_r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  printf "2.5_%s.%s.%s" "$_branch" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 build() {
   cd "$_pkgname"
   ./autogen.sh
-  ./configure --prefix=/usr #CPPFLAGS="-D_FORTIFY_SOURCE=2" CFLAGS="-fstrict-aliasing -march=native -mtune=native -O3 -pipe -fstack-protector-strong -fno-plt -Wall -Wextra -Wdouble-promotion -g3 -gdwarf-4 -fno-omit-frame-pointer" LDFLAGS="-Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now"
+  ./configure --prefix=/usr CC=clang CXX=clang++ # CPPFLAGS="-D_FORTIFY_SOURCE=2" CFLAGS="-Werror -fsanitize=undefined -fstrict-aliasing -march=native -mtune=native -O3 -pipe -fstack-protector-strong -fno-plt -Wall -Wextra -Wno-unused-parameter -g3 -gdwarf-4 -fno-omit-frame-pointer -isystem$(pg_config --includedir) $(find $(pg_config --pkgincludedir) -type d | awk '{ print "-isystem"$0 }' | xargs)" LDFLAGS="-Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now"
   make
 }
 
