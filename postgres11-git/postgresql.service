@@ -10,6 +10,8 @@ Group=postgres
 RuntimeDirectory=postgresql
 
 Environment=PGROOT=/var/lib/postgres
+Environment=ASAN_OPTIONS=halt_on_error=false,leak_check_at_exit=false,exitcode=0
+Environment=MSAN_OPTIONS=halt_on_error=false,leak_check_at_exit=false,exitcode=0
 
 SyslogIdentifier=postgres
 PIDFile=/var/lib/postgres/data/postmaster.pid
