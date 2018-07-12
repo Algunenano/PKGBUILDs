@@ -1,7 +1,7 @@
 # Maintainer: Javier Torres <jtorres@carto.com>
 _pkgname=carto-postgresql
 pkgname=$_pkgname-git
-pkgver=0.19.2.r8.75df3b0
+pkgver=0.23.0.r0.c4980a9
 pkgrel=1
 pkgdesc="PostgreSQL extension for CARTO"
 arch=('x86_64')
@@ -12,7 +12,7 @@ makedepends=('git')
 conflicts=("$_pkgname")
 provides=("${_pkgname}=${pkgver}")
 _reponame=cartodb-postgresql
-source=("git://github.com/Algunenano/$_reponame.git#branch=parallel")
+source=("git://github.com/CartoDB/$_reponame.git")
 sha256sums=('SKIP')
 
 pkgver() {
