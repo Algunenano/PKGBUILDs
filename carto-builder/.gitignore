@@ -7,3 +7,4 @@
 !carto-builder.service
 !carto-resque.service
 !default_config.patch
+!resque_verbose.patch
