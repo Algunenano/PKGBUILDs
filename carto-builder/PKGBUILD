@@ -1,6 +1,6 @@
 # Maintainer: Javier Torres <javier@javiertorres.eu>
 pkgname=carto-builder
-pkgver=4.12.14.r21.51e4a9f851
+pkgver=4.12.56.r0.72c51090c0
 pkgrel=1
 pkgdesc="Location Intelligence & Data Visualization tool"
 arch=('x86_64')
@@ -17,12 +17,14 @@ options=()
 source=('git+https://github.com/CartoDB/cartodb.git#branch=master'
         'default_config.patch'
         'carto-builder.service'
-        'carto-resque.service')
+        'carto-resque.service'
+        'resque_verbose.patch')
 noextract=()
 sha256sums=('SKIP'
             'b007db9d9547d85a7a95732a6ee3b7cc2aebf0db30ff2c94f46b74b7672f6533'
             '8cdc2866713b4ae0df5e007d672033b48992382186e53c8cb53d15a58755e8ae'
-            '9dd127fc44c767fa6d7ba4f508680991006c5691466f9adc35a84e02a615aec7')
+            '9dd127fc44c767fa6d7ba4f508680991006c5691466f9adc35a84e02a615aec7'
+            'c7eb3357eaf87fdca0c9e57d608704cbbe3302fa5caa73c384ebed067dfcaac6')
 
 pkgver() {
   cd "$srcdir/cartodb"
@@ -31,12 +33,14 @@ pkgver() {
 
 prepare() {
   patch -p1 < "$srcdir/default_config.patch"
+  cd "$srcdir/cartodb"
+  patch -p1 < "$srcdir/resque_verbose.patch"
 }
 
 build() {
   cd "$srcdir/cartodb"
   bundle install --path vendor/bundle
-  rm -f npm-shrinkwrap.json && npm install && npm shrinkwrap
+  rm -rf npm-shrinkwrap.json && npm install && npm shrinkwrap && npm run carto-node && npm run build:static && npm run build:dev
   git submodule update --init
   bundle exec node_modules/.bin/grunt --no-node-checker
 }
