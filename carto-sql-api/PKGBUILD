@@ -1,6 +1,6 @@
 # Maintainer: Javier Torres <jtorres@carto.com>
 pkgname=carto-sql-api
-pkgver=1.47.1.r21.a40c1e2
+pkgver=2.2.0.r16.d40cdd8
 pkgrel=1
 pkgdesc="Provides a node.js based API for running SQL queries against CARTO"
 arch=('x86_64')
@@ -15,12 +15,12 @@ replaces=()
 backup=('etc/carto/sql-api.conf')
 options=()
 install=
-source=('git+https://github.com/CartoDB/CartoDB-SQL-API.git'
+source=('git+https://github.com/CartoDB/CartoDB-SQL-API.git#branch=master'
         'configuration.patch'
         'carto-sql-api.service')
 noextract=()
 sha256sums=('SKIP'
-            '4fad0e69432021e89a0c07bf9a530bed3b2615beeef27d9d2a642ef5d7766738'
+            '188d6403966627d489e71fe2b574302d8aa2bd588f18321ba4f0e0552913ca5c'
             '4f3bf2b93ebd355951d64865fe6919b0ad85584073a334b092d7e78b56c6795d')
 
 pkgver() {
@@ -35,7 +35,7 @@ prepare() {
 
 build() {
   cd "$srcdir/CartoDB-SQL-API"
-  npm install --production
+  rm npm-shrinkwrap.json && npm install --production
 }
 
 package() {
