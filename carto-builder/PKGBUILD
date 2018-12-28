@@ -1,6 +1,6 @@
 # Maintainer: Javier Torres <javier@javiertorres.eu>
 pkgname=carto-builder
-pkgver=4.12.71.r0.a57bb6bae0
+pkgver=4.23.4.r888.ca2295dae9
 pkgrel=1
 pkgdesc="Location Intelligence & Data Visualization tool"
 arch=('x86_64')
@@ -40,7 +40,7 @@ prepare() {
 build() {
   cd "$srcdir/cartodb"
   rm Gemfile.lock && bundle install --path vendor/bundle
-  rm npm-shrinkwrap.json && npm install && npm shrinkwrap && npm run carto-node && npm run build:static && npm run build:dev
+  mv npm-shrinkwrap.json npm-shrinkwrap.json.backup && npm ci && mv npm-shrinkwrap.json.backup npm-shrinkwrap.json && npm run && npm run carto-node && npm run build:static && npm run build:dev
   git submodule update --init
   bundle exec node_modules/.bin/grunt --no-node-checker
 }
