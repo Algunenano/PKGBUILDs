@@ -1,14 +1,14 @@
 # Maintainer: Javier Torres <javier@javiertorres.eu>
 pkgname=carto-builder
-pkgver=4.23.4.r888.ca2295dae9
+pkgver=4.24.0.r16.07e5764091
 pkgrel=1
 pkgdesc="Location Intelligence & Data Visualization tool"
 arch=('x86_64')
 url="https://github.com/CartoDB/cartodb"
 license=('BSD')
 groups=()
-depends=('ruby-bundler' 'postgis' 'redis' 'python2' 'unp' 'python2-gdal')
-makedepends=('git' 'npm')
+depends=('ruby2.5-bundler' 'postgis' 'redis' 'python2' 'unp' 'python2-gdal')
+makedepends=('git' 'npm' 'nodejs')
 provides=()
 conflicts=()
 replaces=()
@@ -22,8 +22,8 @@ source=('git+https://github.com/CartoDB/cartodb.git#branch=master'
 noextract=()
 sha256sums=('SKIP'
             'b007db9d9547d85a7a95732a6ee3b7cc2aebf0db30ff2c94f46b74b7672f6533'
-            '8cdc2866713b4ae0df5e007d672033b48992382186e53c8cb53d15a58755e8ae'
-            '9dd127fc44c767fa6d7ba4f508680991006c5691466f9adc35a84e02a615aec7'
+            '56a27229484b983327dd2f5c132c2960a9d42a902d2c92fb5e04db808ae72091'
+            '1699b0d5c8d5ce09121f6deb304a8207d1bb908ba95b8b57b6a0f0d097b1eb80'
             'c7eb3357eaf87fdca0c9e57d608704cbbe3302fa5caa73c384ebed067dfcaac6')
 
 pkgver() {
@@ -39,10 +39,10 @@ prepare() {
 
 build() {
   cd "$srcdir/cartodb"
-  rm Gemfile.lock && bundle install --path vendor/bundle
+  rm Gemfile.lock && bundle-2.5 install --path vendor/bundle
   mv npm-shrinkwrap.json npm-shrinkwrap.json.backup && npm ci && mv npm-shrinkwrap.json.backup npm-shrinkwrap.json && npm run && npm run carto-node && npm run build:static && npm run build:dev
   git submodule update --init
-  bundle exec node_modules/.bin/grunt --no-node-checker
+  bundle-2.5 exec node_modules/.bin/grunt --no-node-checker
 }
 
 package() {
