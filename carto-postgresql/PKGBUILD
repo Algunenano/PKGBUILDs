@@ -1,7 +1,7 @@
 # Maintainer: Javier Torres <jtorres@carto.com>
 _pkgname=carto-postgresql
 pkgname=$_pkgname-git
-pkgver=0.23.0.r0.c4980a9
+pkgver=0.25.0.r0.1637257
 pkgrel=1
 pkgdesc="PostgreSQL extension for CARTO"
 arch=('x86_64')
@@ -17,7 +17,7 @@ sha256sums=('SKIP')
 
 pkgver() {
 	cd "$_reponame"
-	printf "%s" "$(git describe --long | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
+	printf "%s" "$(git describe --long --tags | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
 }
 
 build() {
