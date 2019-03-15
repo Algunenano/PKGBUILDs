@@ -1,6 +1,6 @@
 # Maintainer: Javier Torres <javier@javiertorres.eu>
 pkgname=carto-builder
-pkgver=4.24.0.r16.07e5764091
+pkgver=4.26.0.r40.41372393aa
 pkgrel=1
 pkgdesc="Location Intelligence & Data Visualization tool"
 arch=('x86_64')
@@ -40,7 +40,7 @@ prepare() {
 build() {
   cd "$srcdir/cartodb"
   rm Gemfile.lock && bundle-2.5 install --path vendor/bundle
-  mv npm-shrinkwrap.json npm-shrinkwrap.json.backup && npm ci && mv npm-shrinkwrap.json.backup npm-shrinkwrap.json && npm run && npm run carto-node && npm run build:static && npm run build:dev
+  npm ci && npm run && npm run carto-node && npm run build:static && npm run build:dev
   git submodule update --init
   bundle-2.5 exec node_modules/.bin/grunt --no-node-checker
 }
@@ -61,6 +61,4 @@ package() {
   install -Dm0644 config/app_config.yml.sample "$pkgdir/etc/carto/builder/config/app_config.yml"
   install -Dm0644 config/database.yml.sample "$pkgdir/etc/carto/builder/config/database.yml"
   install -Dm0644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
-
-  mkdir -p "$pkgdir/var/log/carto/builder"
 }
