@@ -1,6 +1,6 @@
 # Maintainer: Javier Torres <jtorres@carto.com>
 pkgname=carto-tiler
-pkgver=6.5.1.r21.f82a7a14.master
+pkgver=7.0.0.r88.9a984220.master
 pkgrel=1
 pkgdesc="CARTO Maps API tiler. It extends Windshaft with some extra functionality"
 arch=('x86_64')
@@ -16,7 +16,7 @@ source=("git+https://github.com/$owner/$reponame.git#branch=$branch"
         'configuration.patch'
         'carto-tiler.service')
 sha256sums=('SKIP'
-            '9f092ee9f8eb937b49d530485fe34d67d818c6e9267709bff161eb5ceb22ef6c'
+            'a1428f68cc009a5e35dd1009eb0f1956f304051172a184e41fee6542de69443a'
             'e0a7912e260c6dfc1e0fe42fde7f01d1f2dbbab17587d1cfb43b75277745dfa7')
 
 pkgver() {
