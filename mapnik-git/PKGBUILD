@@ -5,21 +5,21 @@
 
 pkgname=mapnik-git
 _pkgname=mapnik
-pkgver=3.0.22.23.g1eb6be064.agg_undefined
+pkgver=3.0.15.10.24.g6a010d382.msan_warning
 pkgrel=1
 pkgdesc="A powerful map rendering toolkit used by OpenStreetmap and others"
 arch=('i686' 'x86_64')
 url="http://mapnik.org/"
 license=('LGPL')
 depends=('boost-libs' 'icu' 'libpng' 'libjpeg-turbo' 'libtiff' 'freetype2'
-	 'libxml2' 'python2' 'proj' 'cairo' 'cairomm' 'python2-cairo'
+	 'libxml2' 'python2' 'proj' 'cairo' 'cairomm'
 	 'postgresql-libs' 'postgis' 'gdal' 'curl' 'libltdl')
 makedepends=('boost' 'git' 'clang' 'python')
 install="mapnik.install"
 conflicts=("$_pkgname")
 provides=("${_pkgname}=${pkgver}")
 _owner="Algunenano"
-_branch="agg_undefined"
+_branch="v3.0.15-carto"
 source=("git://github.com/$_owner/$_pkgname.git#branch=$_branch")
 sha256sums=('SKIP')
 
@@ -38,9 +38,9 @@ build() {
     DESTDIR="$pkgdir" \
     INPUT_PLUGINS=all \
     XMLPARSER=libxml2 \
-    ENABLE_METRICS=False \
+    ENABLE_METRICS=True \
     ENABLE_STATS=False \
-    CPP_TESTS=True \
+    CPP_TESTS=False \
     DEBUG=False \
     ENABLE_LOG=False \
     CUSTOM_CXXFLAGS="$CXXFLAGS" \
@@ -55,11 +55,28 @@ build() {
 #     XMLPARSER=libxml2 \
 #     ENABLE_METRICS=True \
 #     ENABLE_STATS=False \
-#     CPP_TESTS=True \
+#     CPP_TESTS=False \
 #     DEBUG=False \
 #     ENABLE_LOG=False \
 #     OPTIMIZATION=0 \
 #     CUSTOM_CXXFLAGS="-march=native -mtune=native -O0 -pipe -fno-plt -Wall -Wextra -g3 -gdwarf-4 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -fsanitize=undefined -fsanitize-undefined-trap-on-error" \
+#     CUSTOM_DEFINES="-DACCEPT_USE_OF_DEPRECATED_PROJ_API_H=1" \
+#     CC="clang" \
+#     CXX="clang++"
+
+#   python scons/scons.py configure \
+#     PREFIX="/usr" \
+#     DESTDIR="$pkgdir" \
+#     INPUT_PLUGINS=all \
+#     XMLPARSER=libxml2 \
+#     ENABLE_METRICS=True \
+#     ENABLE_STATS=False \
+#     CPP_TESTS=False \
+#     DEBUG=False \
+#     ENABLE_LOG=False \
+#     OPTIMIZATION=0 \
+#     CUSTOM_CXXFLAGS="-march=native -mtune=native -O0 -pipe -fno-plt -Wall -Wextra -g3 -gdwarf-4 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -fsanitize=address -fsanitize-recover=address" \
+#     CUSTOM_LDFLAGS="-fsanitize=address -fsanitize-recover=address" \
 #     CUSTOM_DEFINES="-DACCEPT_USE_OF_DEPRECATED_PROJ_API_H=1" \
 #     CC="clang" \
 #     CXX="clang++"
@@ -77,7 +94,7 @@ build() {
 #     DEBUG=False \
 #     ENABLE_LOG=False \
 #     CUSTOM_CXXFLAGS="-march=native -mtune=native -O2 -pipe -fstack-protector-strong -fno-plt -Wall -Wextra -Wconversion -g3 -gdwarf-4 -fno-omit-frame-pointer -fsanitize=memory -fsanitize-recover=memory -fsanitize-blacklist=/home/raul/dev/public/mapnik/blacklist.supp -fsanitize-memory-track-origins=2" \
-#     CUSTOM_LDFLAGS="-fsanitize=memory -fsanitize-recover=memory -fsanitize-blacklist=/home/raul/dev/public/mapnik/blacklist.supp -fsanitize-memory-track-origins=2" \
+#     CUSTOM_LDFLAGS="-fsanitize=memory -fsanitize-recover=memory -fsanitize-memory-track-origins=2" \
 #     CC="/bin/clang" \
 #     CXX="/bin/clang++"
 
@@ -86,6 +103,6 @@ build() {
 
 package() {
   cd "$_pkgname"
-  python2 scons/scons.py install
+  python scons/scons.py install
   sed -i 's/CONFIG_PREFIX=.*/CONFIG_PREFIX="\/usr"/' $pkgdir/usr/bin/mapnik-config
 }
