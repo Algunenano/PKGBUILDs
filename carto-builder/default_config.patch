@@ -1,18 +1,21 @@
---- src/cartodb/config/app_config.yml.sample	2018-01-17 14:47:52.592642175 +0100
-+++ /etc/carto/builder/config/app_config.yml	2018-01-17 14:46:59.380306426 +0100
-@@ -9,20 +9,20 @@
-     csv_guessing:     true
+diff --git a/config/app_config.yml.sample b/config/app_config.yml.sample
+index d80155d1ec..185c5d27a0 100644
+--- a/config/app_config.yml.sample
++++ b/config/app_config.yml.sample
+@@ -10,22 +10,22 @@ defaults: &defaults
+     memory_limit:
    debug_assets: true
    mandatory_keys:     [layer_opts, sql_api, varnish_management, redis, session_domain]
 -  session_domain:     '.localhost.lan'
 +  session_domain:     'localhost'
    # If activated, urls will use usernames in format //SESSION_DOMAIN/user/USERNAME and ignore subdomains if present
 -  subdomainless_urls: false
-+  subdomainless_urls: true
++  subdomainless_urls: true 
    http_port:           3000 # nil|integer. HTTP port to use when building urls. Leave empty to use default (80)
--  https_port:          # nil|integer. HTTPS port to use when building urls. Leave empty to use default (443)
-+  https_port:          3000 # nil|integer. HTTPS port to use when building urls. Leave empty to use default (443)
+   https_port:          # nil|integer. HTTPS port to use when building urls. Leave empty to use default (443)
    secret_token:       '71c2b25921b84a1cb21c71503ab8fb23'
+   # It's recommended to generate a new secret_key_base for each installation using `bundle exec rake secret`
+   secret_key_base:    '65903fa751affcdd71a9eb09308bcb404c50c8df03414db849ea22fbe8d4aae9ff344f6594630eb9c8367b4fd8ed2211d0342a49df473dccc27ae0be120b25ab'
 -  account_host:       'localhost.lan:3000'
 +  account_host:       'localhost:3000'
    # Here you can define other hosts different to account_host that also will be CORS enabled
@@ -22,11 +25,11 @@
    #   - carto.dev
    account_path:       '/account'
 -  vizjson_cache_domains: ['.localhost.lan']
-+  vizjson_cache_domains: ['.localhost']
++  vizjson_cache_domains: ['localhost']
    data_library:
      username:         'common-data'
      path:             '/data-library'
-@@ -33,33 +33,33 @@
+@@ -36,33 +36,33 @@ defaults: &defaults
      filter: 'mapnik'
      internal:
        protocol:      'http'
@@ -66,24 +69,24 @@
    google_analytics:
      primary:          ''
      embeds:           ''
-@@ -168,7 +168,7 @@
-       users_metadata:      5
-       redis_migrator_logs: 6
+@@ -200,7 +200,7 @@ defaults: &defaults
+     # secondary:
+     #   host: '127.0.0.1'
    org_metadata_api:
 -    host: 'localhost.lan'
 +    host: 'localhost'
      port: '3000'
      username: "extension"
      password: "elephant"
-@@ -216,6 +216,7 @@
-       s3_endpoint: ''
+@@ -262,6 +262,7 @@ defaults: &defaults
+       region: ''
      uploads_path: 'public/uploads' # including 'uploads' assumes public path. Absolute path example: /tmp/exports/downloads
    importer:
 +    python_bin_path: '/bin/python2'
      blacklisted_ip_addr: []
      content_guessing:        # Depends on geocoding
        enabled:         false # Disabled if false or not present
-@@ -264,10 +265,10 @@
+@@ -310,10 +311,10 @@ defaults: &defaults
          interactivity:      "cartodb_id"
          debug:              false
          visible:            true
@@ -96,7 +99,7 @@
          sql_port:           "80"
          sql_protocol:       "http"
          extra_params:       { cache_policy: 'persist' }
-@@ -294,7 +295,7 @@
+@@ -342,7 +343,7 @@ defaults: &defaults
      #   max_size_in_bytes: 1048576 # Optional, default is 1 MB
      #   location: 'organization_assets' # Optional subdirectory for local assets, default is 'organization_assets'
    app_assets:
@@ -105,7 +108,7 @@
    avatars:
      gravatar_enabled: true
      base_url: '/assets/unversioned/images/avatars'
-@@ -710,9 +710,9 @@
+@@ -770,9 +771,9 @@ test:
      port: 6335
    enforce_non_empty_layer_css: false
    api_requests_es_service:
