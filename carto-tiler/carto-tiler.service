@@ -5,6 +5,7 @@ After=syslog.target network.target
 [Service]
 Type=simple
 ExecStart=/usr/bin/node /opt/carto/tiler/app.js -c /etc/carto/tiler.conf
+Environment=LD_PRELOAD=/usr/lib/libjemalloc.so
 
 [Install]
 WantedBy=multi-user.target

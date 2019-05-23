@@ -1,27 +1,27 @@
 # Maintainer: Javier Torres <jtorres@carto.com>
 pkgname=carto-tiler
-pkgver=7.0.0.r115.022e6a2f.master
+pkgver=7.1.0.r1.5545643d.mapnik15.static
 pkgrel=1
 pkgdesc="CARTO Maps API tiler. It extends Windshaft with some extra functionality"
 arch=('x86_64')
 url="https://github.com/CartoDB/Windshaft-cartodb"
 license=('BSD')
-depends=('nodejs-lts-dubnium' 'redis' 'postgresql')
+depends=('nodejs-lts-dubnium' 'redis' 'postgresql' 'jemalloc')
 makedepends=('git' 'npm')
 backup=('etc/carto/tiler.conf')
 owner='CartoDB'
 reponame='Windshaft-cartodb'
-branch='master'
+branch='mapnik15'
 source=("git+https://github.com/$owner/$reponame.git#branch=$branch"
         'configuration.patch'
         'carto-tiler.service')
 sha256sums=('SKIP'
             'a1428f68cc009a5e35dd1009eb0f1956f304051172a184e41fee6542de69443a'
-            'e0a7912e260c6dfc1e0fe42fde7f01d1f2dbbab17587d1cfb43b75277745dfa7')
+            'eba36ec807c9a4c7d68e3031cb64cf2824537653faec9cc61f2c821d51b08d36')
 
 pkgver() {
   cd "$reponame"
-  printf "%s.%s" "$(git describe --long --tags | sed 's/\([^-]*-\)g/r\1/;s/-/./g')" "$(echo $branch | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
+  printf "%s.%s.static" "$(git describe --long --tags | sed 's/\([^-]*-\)g/r\1/;s/-/./g')" "$(echo $branch | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
 }
 
 prepare() {
@@ -32,6 +32,7 @@ prepare() {
 build() {
   cd "$reponame"
   npm ci --production
+#   NODE_MAPNIK_BUILD=release_base npm install --production --build-from-source --shared_gdal
 }
 
 package() {
