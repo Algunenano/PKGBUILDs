@@ -1,6 +1,6 @@
 _pkgname=postgresql
 pkgname=$_pkgname-git
-pkgver=11_BETA2.r171.f34d4b79fa
+pkgver=11_3.r38.57e85fa2cb
 pkgrel=1
 pkgdesc="Git version of the PostgreSQL database (includes both server and libs)"
 arch=('i686' 'x86_64')
@@ -28,7 +28,7 @@ sha256sums=('SKIP'
             '8538619cb8bea51078b605ad64fe22abd6050373c7ae3ad6595178da52f6a7d9'
             '57dfd072fd7ef0018c6b0a798367aac1abb5979060ff3f9df22d1048bb71c0d5'
             '6abb842764bbed74ea4a269d24f1e73d1c0b1d8ecd6e2e6fb5fb10590298605e'
-            'bdbbbb18ccddcfc85b874f246672093cc51adb742dad1a1d3709e66634c2d6cd'
+            '9c7ed2da7f6ce9f932852b6f798a90ad1d79c97ee148c6e98d02e514fe3f5e36'
             '7e086d70e0dcaa6ce45693b4e826ce92d770192b3aff5642319b1ef279d88dc4')
 
 pkgver() {
@@ -60,7 +60,7 @@ build() {
   --with-uuid=e2fs \
   --enable-nls \
   --enable-thread-safety \
-  --with-llvm
+  --with-llvm # --enable-cassert --enable-debug
 
   make
   make -C contrib
