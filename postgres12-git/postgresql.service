@@ -11,7 +11,7 @@ Group=postgres
 Environment=PGROOT=/var/lib/postgres
 Environment=ASAN_OPTIONS=halt_on_error=false,leak_check_at_exit=false,exitcode=0
 Environment=MSAN_OPTIONS=halt_on_error=false,leak_check_at_exit=false,exitcode=0
-#Environment=LD_PRELOAD=/usr/lib/clang/8.0.0/lib/linux/libclang_rt.asan-x86_64.so
+#Environment=LD_PRELOAD=/usr/lib/clang/8.0.1/lib/linux/libclang_rt.asan-x86_64.so
 
 SyslogIdentifier=postgres
 PIDFile=/var/lib/postgres/data/postmaster.pid
