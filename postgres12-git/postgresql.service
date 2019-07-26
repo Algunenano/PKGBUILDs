@@ -1,0 +1,38 @@
+[Unit]
+Description=PostgreSQL database server
+After=network.target
+
+[Service]
+Type=notify
+TimeoutSec=120
+User=postgres
+Group=postgres
+
+Environment=PGROOT=/var/lib/postgres
+Environment=ASAN_OPTIONS=halt_on_error=false,leak_check_at_exit=false,exitcode=0
+Environment=MSAN_OPTIONS=halt_on_error=false,leak_check_at_exit=false,exitcode=0
+#Environment=LD_PRELOAD=/usr/lib/clang/8.0.0/lib/linux/libclang_rt.asan-x86_64.so
+
+SyslogIdentifier=postgres
+PIDFile=/var/lib/postgres/data/postmaster.pid
+RuntimeDirectory=postgresql
+RuntimeDirectoryMode=755
+
+ExecStartPre=/usr/bin/postgresql-check-db-dir ${PGROOT}/data
+ExecStart=/usr/bin/postgres -D ${PGROOT}/data
+ExecReload=/bin/kill -HUP ${MAINPID}
+KillMode=mixed
+KillSignal=SIGINT
+
+# Due to PostgreSQL's use of shared memory, OOM killer is often overzealous in
+# killing Postgres, so adjust it downward
+OOMScoreAdjust=-200
+
+# Additional security-related features
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=full
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target
