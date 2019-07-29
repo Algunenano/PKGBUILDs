@@ -12,6 +12,7 @@ Environment=PGROOT=/var/lib/postgres
 Environment=ASAN_OPTIONS=halt_on_error=false,leak_check_at_exit=false,exitcode=0
 Environment=MSAN_OPTIONS=halt_on_error=false,leak_check_at_exit=false,exitcode=0
 #Environment=LD_PRELOAD=/usr/lib/clang/8.0.1/lib/linux/libclang_rt.asan-x86_64.so
+#Environment=LD_PRELOAD=/usr/lib/clang/8.0.1/lib/linux/libclang_rt.ubsan_standalone-x86_64.s
 
 SyslogIdentifier=postgres
 PIDFile=/var/lib/postgres/data/postmaster.pid
@@ -19,7 +20,7 @@ RuntimeDirectory=postgresql
 RuntimeDirectoryMode=755
 
 ExecStartPre=/usr/bin/postgresql-check-db-dir ${PGROOT}/data
-ExecStart=/usr/bin/postgres -D ${PGROOT}/data
+ExecStart=/usr/bin/postgres -D ${PGROOT}/data -w -t 120
 ExecReload=/bin/kill -HUP ${MAINPID}
 KillMode=mixed
 KillSignal=SIGINT
