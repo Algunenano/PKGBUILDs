@@ -29,8 +29,9 @@ KillSignal=SIGINT
 OOMScoreAdjust=-200
 
 # Additional security-related features
-PrivateTmp=true
-ProtectHome=true
+# Disabled PrivateTmp and ProtectHome to be able to load libraries (Postgis) during development
+#PrivateTmp=true
+#ProtectHome=true
 ProtectSystem=full
 NoNewPrivileges=true
 
