@@ -1,35 +1,38 @@
 _pkgname=geos
 pkgname=$_pkgname-git
-pkgver=3.7.0alpha.r0.g1aef6fac
+pkgver=3.8.0dev.4522.7834f323.master
 pkgrel=1
 pkgdesc="C++ port of the Java Topology Suite"
 arch=('i686' 'x86_64')
 url="http://trac.osgeo.org/geos/"
 license=('GPL')
-depends=('gcc-libs' 'bash')
 makedepends=('git')
 options=('!emptydirs')
 provides=("${_pkgname}=${pkgver}")
 conflicts=("$_pkgname")
-source=("$_pkgname::git+https://git.osgeo.org/gogs/geos/geos.git")
+_branch="master"
+source=("$_pkgname::git+https://github.com/Algunenano/geos.git#branch=$_branch")
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$_pkgname"
-  ( set -o pipefail
-    git describe --long --tags 2>/dev/null | sed 's/\([^-]*-g\)/r\1/;s/-/./g' ||
-    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
-  )
+    cd "${_pkgname}"
+    if [[ -e "Version.txt" ]]; then
+        source Version.txt
+        COMMIT="$(git rev-parse --short HEAD)"
+        printf "${GEOS_VERSION_MAJOR}.${GEOS_VERSION_MINOR}.${GEOS_VERSION_PATCH}${GEOS_PATCH_WORD}.%s.${COMMIT}.${_branch}" "$(git rev-list --count HEAD)"
+    else
+        git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+    fi
 }
 
 build() {
-  cd "${_pkgname}"
-  ./autogen.sh
-  ./configure --prefix=/usr
-  make
+    cd "${_pkgname}"
+    ./autogen.sh
+    ./configure --prefix=/usr --prefix=/usr CC=clang CXX=clang++ #CFLAGS="-fstrict-aliasing -march=native -mtune=native -O0 -pipe -fstack-protector-strong -fno-plt -Wall -Wextra -g3 -gdwarf-4 -fno-omit-frame-pointer -Wno-unused-parameter -fsanitize=memory -fsanitize-memory-track-origins=2 -fsanitize-recover=memory" CXXFLAGS="-fstrict-aliasing -march=native -mtune=native -O0 -pipe -fstack-protector-strong -fno-plt -Wall -Wextra -g3 -gdwarf-4 -fno-omit-frame-pointer -Wno-unused-parameter -fsanitize=memory -fsanitize-memory-track-origins=2 -fsanitize-recover=memory" LDFLAGS="-Wl,-O0,--sort-common,--as-needed,-z,relro,-z,now"
+    make
 }
 
 package() {
-  cd "${_pkgname}"
-  make DESTDIR="${pkgdir}" install
+    cd "${_pkgname}"
+    make DESTDIR="${pkgdir}" install
 }
