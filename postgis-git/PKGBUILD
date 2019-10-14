@@ -1,28 +1,30 @@
 _pkgname=postgis
 pkgname=$_pkgname-git
-pkgver=3.0_libwagyu_LTO.12609.a7806e460
+pkgver=3.1.0dev_svn_trunk_13076.9796ad61e
 pkgrel=1
 pkgdesc="Adds support for geographic objects to PostgreSQL"
 arch=('i686' 'x86_64')
 url="http://postgis.net/"
 license=('GPL')
-depends=('postgresql' 'gdal' 'json-c' 'proj' 'protobuf-c' 'sfcgal' 'libxml2')
+depends=('postgresql' 'gdal' 'json-c' 'proj' 'protobuf-c' 'libxml2')
+optdepends=('sfcgal')
 makedepends=('git' 'clang')
 provides=("${_pkgname}=${pkgver}")
 conflicts=("$_pkgname")
-_branch="libwagyu"
+_branch="svn-trunk"
 source=("$_pkgname::git+https://github.com/Algunenano/postgis.git#branch=$_branch")
 sha256sums=('SKIP')
 
 pkgver() {
   cd "$_pkgname"
-  printf "3.0_%s_LTO.%s.%s" "$(echo $_branch | sed 's/-/_/g')" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  source Version.config
+  printf "%s.%s.%s_%s_%s.%s" "$POSTGIS_MAJOR_VERSION" "$POSTGIS_MINOR_VERSION" "$POSTGIS_MICRO_VERSION" "$(echo $_branch | sed 's/-/_/g')" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 build() {
   cd "$_pkgname"
   ./autogen.sh
-  ./configure --with-wagyu --prefix=/usr CC=clang CXX=clang++ CFLAGS="$CFLAGS -flto=thin" CXXFLAGS="$CXXFLAGS -flto=thin" LDFLAGS="$LDFLAGS -flto=thin"
+  ./configure --prefix=/usr CC=clang CXX=clang++ CFLAGS="$CFLAGS -flto=thin" CXXFLAGS="$CXXFLAGS -flto=thin" LDFLAGS="$LDFLAGS -flto=thin"
   make
 }
 
