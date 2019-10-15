@@ -1,6 +1,6 @@
 # Maintainer: Javier Torres <jtorres@carto.com>
 pkgname=carto-sql-api
-pkgver=3.0.0.r88.5bb1799a
+pkgver=4.0.0.r49.027e1f15
 pkgrel=1
 pkgdesc="Provides a node.js based API for running SQL queries against CARTO"
 arch=('x86_64')
@@ -41,7 +41,7 @@ build() {
 package() {
   cd "$srcdir/CartoDB-SQL-API"
   mkdir -p "$pkgdir/opt/carto/sql-api"
-  cp -ar app app.js batch node_modules package.json "$pkgdir/opt/carto/sql-api"
+  cp -ar app.js lib node_modules package.json "$pkgdir/opt/carto/sql-api"
 
   install -Dm0644 "$srcdir/carto-sql-api.service" "$pkgdir/usr/lib/systemd/system/carto-sql-api.service"
   install -Dm0644 config/environments/development.js.example "$pkgdir/etc/carto/sql-api.conf"
