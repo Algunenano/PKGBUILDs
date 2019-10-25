@@ -1,8 +1,8 @@
 diff --git a/config/environments/development.js.example b/config/environments/development.js.example
-index ed0aaf58..e2b4ebd3 100644
+index 7004c9ec..9b75f0f9 100644
 --- a/config/environments/development.js.example
 +++ b/config/environments/development.js.example
-@@ -70,8 +70,8 @@ var config = {
+@@ -64,8 +64,8 @@ var config = {
      //  2. {{=it.user}}: will use the username as extraced from `user_from_host` or `routes`.
      //  3. {{=it.port}}: will use the `port` from this very same configuration file.
      ,resources_url_templates: {
@@ -13,16 +13,7 @@ index ed0aaf58..e2b4ebd3 100644
      }
  
      // Maximum number of connections for one process
-@@ -92,7 +92,7 @@ var config = {
-     // If log_filename is given logs will be written
-     // there, in append mode. Otherwise stdout is used (default).
-     // Log file will be re-opened on receiving the HUP signal
--    ,log_filename: 'logs/node-windshaft.log'
-+    ,log_filename: undefined
-     // Templated database username for authorized user
-     // Supported labels: 'user_id' (read from redis)
-     ,postgres_auth_user: 'development_cartodb_user_<%= user_id %>'
-@@ -113,7 +113,7 @@ var config = {
+@@ -107,7 +107,7 @@ var config = {
              reapInterval: 1000
          }
      }
@@ -31,7 +22,7 @@ index ed0aaf58..e2b4ebd3 100644
      ,mapnik_tile_format: 'png8:m=h'
      ,statsd: {
          host: 'localhost',
-@@ -124,7 +124,7 @@ var config = {
+@@ -118,7 +118,7 @@ var config = {
      }
      ,renderer: {
        // Milliseconds since last access before renderer cache item expires
@@ -40,7 +31,7 @@ index ed0aaf58..e2b4ebd3 100644
        statsInterval: 5000, // milliseconds between each report to statsd about number of renderers and mapnik pool status
        mvt: {
          //If enabled, MVTs will be generated with PostGIS directly
-@@ -150,7 +150,7 @@ var config = {
+@@ -144,7 +144,7 @@ var config = {
            // to be rendered at once. If all of them will be requested
            // we'd have saved time. If only one will be used, we'd have
            // wasted time.
@@ -49,7 +40,7 @@ index ed0aaf58..e2b4ebd3 100644
  
            // tilelive-mapnik uses an internal cache to store tiles/grids
            // generated when using metatile. This options allow to tune
-@@ -160,12 +160,12 @@ var config = {
+@@ -154,12 +154,12 @@ var config = {
                ttl: 0,
                // Whether an object must be removed after the first hit
                // Usually you want to use `true` here when ttl>0.
@@ -64,7 +55,7 @@ index ed0aaf58..e2b4ebd3 100644
                'grid.json': 1
            },
  
-@@ -196,7 +196,7 @@ var config = {
+@@ -190,7 +190,7 @@ var config = {
                port: 5432,
                extent: "-20037508.3,-20037508.3,20037508.3,20037508.3",
                // max number of rows to return when querying data, 0 means no limit
@@ -73,7 +64,7 @@ index ed0aaf58..e2b4ebd3 100644
                /*
                 * Set persist_connection to false if you want
                 * database connections to be closed on renderer
-@@ -221,7 +221,7 @@ var config = {
+@@ -215,7 +215,7 @@ var config = {
                // the same tile will result in an immediate response, however that will use a lot of more application
                // memory. If we want to enforce this behaviour we have to implement a cache eviction policy for the
                // internal cache.
@@ -82,7 +73,7 @@ index ed0aaf58..e2b4ebd3 100644
            },
  
            // If enabled Mapnik will reuse the features retrieved from the database
-@@ -229,7 +229,7 @@ var config = {
+@@ -223,7 +223,7 @@ var config = {
            'cache-features': true,
  
            // Require metrics to the renderer
@@ -91,7 +82,7 @@ index ed0aaf58..e2b4ebd3 100644
  
            // Options for markers attributes, ellipses and images caches
            markers_symbolizer_caches: {
-@@ -265,13 +265,13 @@ var config = {
+@@ -259,7 +259,7 @@ var config = {
              // where the SQL API is running, it will use a custom Host header to specify the username.
              endpoint: 'http://127.0.0.1:8080/api/v2/sql/job',
              // the template to use for adding the host header in the batch api requests
@@ -100,10 +91,3 @@ index ed0aaf58..e2b4ebd3 100644
          },
          logger: {
              // If filename is given logs comming from analysis client  will be written
-             // there, in append mode. Otherwise 'log_filename' is used. Otherwise stdout is used (default).
-             // Log file will be re-opened on receiving the HUP signal
--            filename: 'logs/node-windshaft-analysis.log'
-+            filename: undefined
-         },
-         // Define max execution time in ms for analyses or tags
-         // If analysis or tag are not found in redis this values will be used as default.
