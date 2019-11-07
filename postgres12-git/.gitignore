@@ -12,3 +12,5 @@
 !postgresql.service
 !postgresql.tmpfiles.conf
 !postgresql-check-db-dir
+!postgresql-perl-rpath.patch
+!postgresql.sysusers
