@@ -1,6 +1,6 @@
 _pkgname=postgis
 pkgname=$_pkgname-git
-pkgver=3.1.0dev_svn_trunk_13076.9796ad61e
+pkgver=3.1.0dev_master_13142.ff0845764
 pkgrel=1
 pkgdesc="Adds support for geographic objects to PostgreSQL"
 arch=('i686' 'x86_64')
@@ -11,7 +11,7 @@ optdepends=('sfcgal')
 makedepends=('git' 'clang')
 provides=("${_pkgname}=${pkgver}")
 conflicts=("$_pkgname")
-_branch="svn-trunk"
+_branch="master"
 source=("$_pkgname::git+https://github.com/Algunenano/postgis.git#branch=$_branch")
 sha256sums=('SKIP')
 
@@ -24,7 +24,7 @@ pkgver() {
 build() {
   cd "$_pkgname"
   ./autogen.sh
-  ./configure --prefix=/usr CC=clang CXX=clang++ CFLAGS="$CFLAGS -flto=thin" CXXFLAGS="$CXXFLAGS -flto=thin" LDFLAGS="$LDFLAGS -flto=thin"
+  ./configure --prefix=/usr CC=clang CXX=clang++
   make
 }
 
