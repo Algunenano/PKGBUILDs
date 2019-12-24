@@ -1,23 +1,25 @@
 # Maintainer: Javier Torres <jtorres@carto.com>
 _pkgname=carto-postgresql
 pkgname=$_pkgname-git
-pkgver=0.25.0.r0.1637257
+pkgver=master.0.33.0.r15.4c15faf
 pkgrel=1
 pkgdesc="PostgreSQL extension for CARTO"
 arch=('x86_64')
 url="https://github.com/CartoDB/cartodb-postgresql"
 license=('BSD')
-depends=('postgresql')
+depends=('postgresql' 'python-redis')
 makedepends=('git')
 conflicts=("$_pkgname")
 provides=("${_pkgname}=${pkgver}")
 _reponame=cartodb-postgresql
-source=("git://github.com/CartoDB/$_reponame.git")
+_owner="CartoDB"
+_branch="master"
+source=("git://github.com/$_owner/$_reponame.git#branch=$_branch")
 sha256sums=('SKIP')
 
 pkgver() {
 	cd "$_reponame"
-	printf "%s" "$(git describe --long --tags | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
+	printf "%s.%s" "$(echo $_branch | sed 's/-/_/g')" "$(git describe --long --tags | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
 }
 
 build() {
