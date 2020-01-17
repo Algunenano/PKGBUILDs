@@ -1,20 +1,20 @@
 # Maintainer: Javier Torres <javier@javiertorres.eu>
 pkgname=carto-builder
-pkgver=4.29.0.r261.30f807455f
+pkgver=4.31.0.r714.4cdd37ae50
 pkgrel=1
 pkgdesc="Location Intelligence & Data Visualization tool"
 arch=('x86_64')
 url="https://github.com/CartoDB/cartodb"
 license=('BSD')
 groups=()
-depends=('ruby2.5-bundler' 'postgis' 'redis' 'python' 'unp' 'python-gdal')
+depends=('ruby2.5-bundler<2.0.0' 'postgis' 'redis' 'python' 'unp' 'python-gdal')
 makedepends=('git' 'npm' 'nodejs')
 provides=()
 conflicts=()
 replaces=()
 backup=('etc/carto/builder/config/app_config.yml' 'etc/carto/builder/config/database.yml')
 options=()
-source=('git+https://github.com/CartoDB/cartodb.git#branch=master'
+source=('git+https://github.com/CartoDB/cartodb.git#branch=poltergeist_pin'
 #source=('git+https://github.com/Algunenano/cartodb.git#branch=update_sequel'
         'default_config.patch'
         'carto-builder.service'
