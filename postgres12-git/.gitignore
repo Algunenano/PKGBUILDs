@@ -10,7 +10,7 @@
 !postgresql.logrotate
 !postgresql.pam
 !postgresql.service
-!postgresql.tmpfiles.conf
+!postgresql.tmpfiles
 !postgresql-check-db-dir
 !postgresql-perl-rpath.patch
 !postgresql.sysusers
