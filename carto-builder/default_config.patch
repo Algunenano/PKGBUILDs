@@ -131,7 +131,7 @@ index 2071875550..5f90255ab3 100644
    username: postgres
    password:
    conn_validator_timeout: 900
--  connect_timeout: 2.5
+-  connect_timeout: 3
 +  connect_timeout: 10
    pool: 50
    prepared_statements: false

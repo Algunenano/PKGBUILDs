@@ -8,7 +8,7 @@ WorkingDirectory=/opt/carto/builder
 Environment=RAILS_ENV=development
 Environment=HOME=/tmp
 Environment=RAILS_LOG_BASE_PATH=/var/log/carto/builder
-ExecStart=bundle-2.5 exec thin start --threaded -p 3000 --threadpool-size 5
+ExecStart=bundle exec thin start --threaded -p 3000 --threadpool-size 5
 
 [Install]
 WantedBy=multi-user.target
