@@ -1,13 +1,13 @@
 # Maintainer: Javier Torres <jtorres@carto.com>
 pkgname=carto-sql-api
-pkgver=4.0.0.r49.027e1f15
+pkgver=5.0.1.r28.e02079b9
 pkgrel=1
 pkgdesc="Provides a node.js based API for running SQL queries against CARTO"
 arch=('x86_64')
 url="https://github.com/CartoDB/CartoDB-SQL-API"
 license=('BSD')
 groups=()
-depends=('zip' 'gdal' 'nodejs' 'postgis' 'redis')
+depends=('zip' 'gdal' 'nodejs-lts-erbium' 'postgis' 'redis')
 makedepends=('git' 'npm')
 provides=()
 conflicts=()

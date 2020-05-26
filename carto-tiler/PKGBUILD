@@ -1,12 +1,12 @@
 # Maintainer: Javier Torres <jtorres@carto.com>
 pkgname=carto-tiler
-pkgver=7.2.0.r58.9fd1a3c6.master.static
+pkgver=8.1.1.r78.4d06fee1.master.static
 pkgrel=1
 pkgdesc="CARTO Maps API tiler. It extends Windshaft with some extra functionality"
 arch=('x86_64')
 url="https://github.com/CartoDB/Windshaft-cartodb"
 license=('BSD')
-depends=('nodejs-lts-dubnium' 'redis' 'postgresql' 'jemalloc')
+depends=('nodejs-lts-erbium' 'redis' 'postgresql' 'jemalloc')
 makedepends=('git' 'npm')
 backup=('etc/carto/tiler.conf')
 owner='CartoDB'
