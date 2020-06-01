@@ -1,5 +1,5 @@
 diff --git a/config/app_config.yml.sample b/config/app_config.yml.sample
-index 9c13989e90..d06dc95eee 100644
+index c7278816b8..0913a50c24 100644
 --- a/config/app_config.yml.sample
 +++ b/config/app_config.yml.sample
 @@ -10,24 +10,24 @@ defaults: &defaults
@@ -72,7 +72,7 @@ index 9c13989e90..d06dc95eee 100644
    google_analytics:
      primary:          ''
      embeds:           ''
-@@ -203,7 +203,7 @@ defaults: &defaults
+@@ -207,7 +207,7 @@ defaults: &defaults
      # secondary:
      #   host: '127.0.0.1'
    org_metadata_api:
@@ -81,15 +81,7 @@ index 9c13989e90..d06dc95eee 100644
      port: '3000'
      username: "extension"
      password: "elephant"
-@@ -265,6 +265,7 @@ defaults: &defaults
-       region: ''
-     uploads_path: 'public/uploads' # including 'uploads' assumes public path. Absolute path example: /tmp/exports/downloads
-   importer:
-+    python_bin_path: '/bin/python'
-     blacklisted_ip_addr: []
-     content_guessing:        # Depends on geocoding
-       enabled:         false # Disabled if false or not present
-@@ -313,10 +314,10 @@ defaults: &defaults
+@@ -318,10 +318,10 @@ defaults: &defaults
          interactivity:      "cartodb_id"
          debug:              false
          visible:            true
@@ -102,16 +94,16 @@ index 9c13989e90..d06dc95eee 100644
          sql_port:           "80"
          sql_protocol:       "http"
          extra_params:       { cache_policy: 'persist' }
-@@ -349,7 +350,7 @@ defaults: &defaults
+@@ -354,7 +354,7 @@ defaults: &defaults
      #   max_size_in_bytes: 1048576 # Optional, default is 1 MB
-     #   location: 'kuviz_assets' # Optional subdirectory for local assets, default is 'kuviz_assets'
+     #   location: 'html_assets' # Optional subdirectory for local assets, default is 'html_assets'
    app_assets:
 -    asset_host: "//cartodb-libs.global.ssl.fastly.net/cartodbui"
 +    # asset_host: "//cartodb-libs.global.ssl.fastly.net/cartodbui"
    avatars:
      gravatar_enabled: true
      base_url: '/assets/unversioned/images/avatars'
-@@ -777,9 +778,9 @@ test:
+@@ -836,9 +836,9 @@ test:
      port: 6335
    enforce_non_empty_layer_css: false
    api_requests_es_service:
@@ -121,10 +113,10 @@ index 9c13989e90..d06dc95eee 100644
 -  session_domain:     '.localhost.lan'
 +  session_domain:     'localhost'
    subdomainless_urls: false
- 
- staging:
+   federated_server:
+     dir: "/tmp/federated_server_db"
 diff --git a/config/database.yml.sample b/config/database.yml.sample
-index 2071875550..5f90255ab3 100644
+index 9faa50fabd..198451df36 100644
 --- a/config/database.yml.sample
 +++ b/config/database.yml.sample
 @@ -34,7 +34,7 @@ development:

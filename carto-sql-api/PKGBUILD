@@ -16,21 +16,14 @@ backup=('etc/carto/sql-api.conf')
 options=()
 install=
 source=('git+https://github.com/CartoDB/CartoDB-SQL-API.git#branch=master'
-        'configuration.patch'
         'carto-sql-api.service')
 noextract=()
 sha256sums=('SKIP'
-            '00e7d2edae609e6d8eb45d1225b06e6fb5c9fc4f6650beef0423a530610ed1f1'
             '4f3bf2b93ebd355951d64865fe6919b0ad85584073a334b092d7e78b56c6795d')
 
 pkgver() {
   cd "$srcdir/CartoDB-SQL-API"
   printf "%s" "$(git describe --long | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
-}
-
-prepare() {
-  cd "$srcdir/CartoDB-SQL-API"
-  patch -p1 < "$srcdir/configuration.patch"
 }
 
 build() {
