@@ -1,6 +1,6 @@
 # Maintainer: Javier Torres <javier@javiertorres.eu>
 pkgname=carto-builder
-pkgver=4.37.0.r385.1fbb198983.bring_profiler_to_2020
+pkgver=4.44.0.r29.8da0d28adc.regenerate_table
 pkgrel=1
 pkgdesc="Location Intelligence & Data Visualization tool"
 arch=('x86_64')
@@ -14,7 +14,7 @@ conflicts=()
 replaces=()
 backup=('etc/carto/builder/config/app_config.yml' 'etc/carto/builder/config/database.yml')
 options=()
-_branch='bring-profiler-to-2020'
+_branch='regenerate_table'
 source=("git+https://github.com/CartoDB/cartodb.git#branch=$_branch"
 #source=('git+https://github.com/Algunenano/cartodb.git#branch=update_sequel'
         'default_config.patch'
@@ -23,7 +23,7 @@ source=("git+https://github.com/CartoDB/cartodb.git#branch=$_branch"
         'resque_verbose.patch')
 noextract=()
 sha256sums=('SKIP'
-            '94211ab0adf0eec0d7a62410df0b038af72b9e881d438eb384a48ce9d3f377e0'
+            '766b47e68aec4244515b5c57134b77bae894104b4b9b02ca010dea7999c47c26'
             '5bd32b6e3f9c29683cfa9922fe0bb15f0c98bd8735a31ca46ad36c1d51c6818a'
             'aa0164ffda931984000aa527c452a24a95fe4f31e1674a7f68a8fa82e642ccee'
             'c7eb3357eaf87fdca0c9e57d608704cbbe3302fa5caa73c384ebed067dfcaac6')

@@ -1,8 +1,8 @@
 diff --git a/config/app_config.yml.sample b/config/app_config.yml.sample
-index c7278816b8..0913a50c24 100644
+index f204a45c91..fa946204cb 100644
 --- a/config/app_config.yml.sample
 +++ b/config/app_config.yml.sample
-@@ -10,24 +10,24 @@ defaults: &defaults
+@@ -10,11 +10,11 @@ defaults: &defaults
      memory_limit:
    debug_assets: true
    mandatory_keys:     [layer_opts, sql_api, varnish_management, redis, session_domain]
@@ -10,12 +10,14 @@ index c7278816b8..0913a50c24 100644
 +  session_domain:     'localhost'
    # If activated, urls will use usernames in format //SESSION_DOMAIN/user/USERNAME and ignore subdomains if present
 -  subdomainless_urls: false
-+  subdomainless_urls: true 
++  subdomainless_urls: true
    http_port:           3000 # nil|integer. HTTP port to use when building urls. Leave empty to use default (80)
 -  https_port:          # nil|integer. HTTPS port to use when building urls. Leave empty to use default (443)
 +  https_port:          3000 # nil|integer. HTTPS port to use when building urls. Leave empty to use default (443)
+   # Setting this to true will enable ActiveController's enforcement of SSL.
+   ssl_required: false
    secret_token:       '71c2b25921b84a1cb21c71503ab8fb23'
-   # It's recommended to generate a new secret_key_base for each installation using `bundle exec rake secret`
+@@ -22,14 +22,14 @@ defaults: &defaults
    secret_key_base:    '65903fa751affcdd71a9eb09308bcb404c50c8df03414db849ea22fbe8d4aae9ff344f6594630eb9c8367b4fd8ed2211d0342a49df473dccc27ae0be120b25ab'
    # It's recommended to generate a new password_secret (pepper for password encryption) for each installation using `bundle exec rake secret`
    password_secret:    'cc914bbbfa1d7156ec1424260d3a3214f3d1720aae872c1a5887f918929d0fec6f048d708f1ca79b4e43d20b4b623726e656917c9b8f2de0ea6c18e2ee80ce89'
@@ -32,7 +34,7 @@ index c7278816b8..0913a50c24 100644
    data_library:
      username:         'common-data'
      path:             '/data-library'
-@@ -38,33 +38,33 @@ defaults: &defaults
+@@ -40,33 +40,33 @@ defaults: &defaults
      filter: 'mapnik'
      internal:
        protocol:      'http'
@@ -72,7 +74,7 @@ index c7278816b8..0913a50c24 100644
    google_analytics:
      primary:          ''
      embeds:           ''
-@@ -207,7 +207,7 @@ defaults: &defaults
+@@ -209,7 +209,7 @@ defaults: &defaults
      # secondary:
      #   host: '127.0.0.1'
    org_metadata_api:
@@ -81,7 +83,7 @@ index c7278816b8..0913a50c24 100644
      port: '3000'
      username: "extension"
      password: "elephant"
-@@ -318,10 +318,10 @@ defaults: &defaults
+@@ -320,10 +320,10 @@ defaults: &defaults
          interactivity:      "cartodb_id"
          debug:              false
          visible:            true
@@ -94,7 +96,7 @@ index c7278816b8..0913a50c24 100644
          sql_port:           "80"
          sql_protocol:       "http"
          extra_params:       { cache_policy: 'persist' }
-@@ -354,7 +354,7 @@ defaults: &defaults
+@@ -356,7 +356,7 @@ defaults: &defaults
      #   max_size_in_bytes: 1048576 # Optional, default is 1 MB
      #   location: 'html_assets' # Optional subdirectory for local assets, default is 'html_assets'
    app_assets:
@@ -103,7 +105,7 @@ index c7278816b8..0913a50c24 100644
    avatars:
      gravatar_enabled: true
      base_url: '/assets/unversioned/images/avatars'
-@@ -836,9 +836,9 @@ test:
+@@ -838,9 +838,9 @@ test:
      port: 6335
    enforce_non_empty_layer_css: false
    api_requests_es_service:
