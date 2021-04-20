@@ -1,0 +1,33 @@
+_pkgname=clickhouse_fdw
+pkgname=$_pkgname-git
+pkgver=1.3.301.a00e4ba
+pkgrel=1
+pkgdesc="ClickHouse Foreign Data Wrapper for PostgreSQLL"
+arch=('i686' 'x86_64')
+url="https://github.com/adjust/clickhouse_fdw"
+license=('Apache')
+depends=('curl')
+makedepends=('git' 'cmake' 'postgresql')
+provides=("${_pkgname}=${pkgver}")
+conflicts=("$_pkgname")
+source=("$_pkgname::git+https://github.com/adjust/clickhouse_fdw")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$_pkgname"
+  printf "%s.%s.%s" "$(grep default_version src/clickhouse_fdw.control | awk '{print $3}' | sed 's/^.\(.*\).$/\1/')" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+    cd "$_pkgname"
+    cmake -B build \
+        -DCMAKE_BUILD_TYPE='None' \
+        -DCMAKE_INSTALL_PREFIX='/usr' \
+        -Wno-dev
+    make -C build
+}
+
+package() {
+    cd "$_pkgname"
+    make -C build DESTDIR="${pkgdir}" install
+}
